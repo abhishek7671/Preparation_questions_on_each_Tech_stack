@@ -95,19 +95,6 @@ FastAPI:
 
 
 
-Docker:
-
-
-1. 
-
-SQL:
-
-
-1. Find top 3 earners in each department
-2. Find employees who earn morethan the average salary
-3. Find the second highest salary
-4. Find employees who earn morethan their manager
-5. top-selling products per category
 
 
 
