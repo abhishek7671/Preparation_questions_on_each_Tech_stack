@@ -1,0 +1,113 @@
+what is dynamic in python?
+Difference between is and == ?
+What is decorator?
+What is Generator?
+what is python memory management
+What is iterator and its types?
+Difference between Generator and iterators?
+Difference between list and tuple?
+What are the Types of comprehensions and explain each type?
+What is lambda and explain that detailed withits functions and all?
+What is map, filter and reduce?
+what is module and package?
+What is pickling and unplicking?
+what is instance method, class method, static method?
+What is inheritence and its types?
+What is multithreading and multipocessing and its types?
+what is Global interpreter lock where it is effected?
+Difference between synchronous and asynchronous? and its real world examples?
+what is shallow copy and deep copy and real time examples
+
+
+
+
+Problem solving:
+
+1. remove the duplicates in list?
+2. find out the repeating characters in list?
+3. combined the nested list into single list?
+4. Longest common prefix?
+5. Reverse a string?
+6. Permutations and combinations in string and list?
+7. Find the first non-repeating character in a string
+8. Find the longest substring without repeating characters?
+9. Find Missing Number in an list or array?
+10.Find the Second Largest Number in a List?
+11.Find the Maximum Number in a List?
+12.Count Occurrences of Each Element in a List
+13.Sum of Digits in a string
+14.Find the Largest and Smallest Elements in a List
+15.Bubble sorted without use the inbuilt methods
+16.count_consecutive_chars in a string 
+17.Valid Parentheses
+18. Anagram code 
+19. Move all zeros to end
+20. Maximum subarray
+
+
+
+
+Django:
+
+1. What is Django, and what are its main features?
+2. What is Django ORM? How is it different from SQLAlchemy?
+3. Explain Django's MVT architecture.
+4. Difference between MVT vs MVC
+5. What is the difference between ForeignKey, OneToOneField, and ManyToManyField?
+6. What is middleware in Django? Can you name some built-in middlewares?
+7. What are Django signals? How are they used?
+8. How do you optimize database queries in Django?
+9. What is the difference between select_related and prefetch_related?
+10. What are class-based views (CBVs), and how are they different from function-based views (FBVs)?
+11. What is Path Parameters (path param) and Query Parameters (query param) difference also?
+12. What is class meta in django?
+13. Difference between put, patch, get and post?
+
+
+
+Flask:
+
+1. How does Flask handle routing?
+2. What is Jinja2 in Flask?
+3. What are Flask Blueprints?
+4. What is Flask-SQLAlchemy?
+5. Difference between django vs flask vs fastapi
+6. Explain the Flask application lifecycle.
+7. How do you implement authentication and authorization in Flask?
+8. How do you connect a Flask application to a database?
+9. How do you deploy a Flask application?
+10. 
+
+
+
+FastAPI:
+
+1. What is FastAPI, and how is it different from Django and Flask?
+2. What are the main features of FastAPI?
+3. What is Pydantic in FastAPI, and how is it used?
+4. What is dependency injection in FastAPI?
+5. How do you use WebSockets in FastAPI?
+6. How do you integrate FastAPI with databases like PostgreSQL or MongoDB?
+7. How do you handle error handling in FastAPI?
+8. How do you deploy a FastAPI application?
+
+
+
+
+
+Docker:
+
+
+1. 
+
+SQL:
+
+
+1. Find top 3 earners in each department
+2. Find employees who earn morethan the average salary
+3. Find the second highest salary
+4. Find employees who earn morethan their manager
+5. top-selling products per category
+
+
+
