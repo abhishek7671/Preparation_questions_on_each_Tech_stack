@@ -1,32 +1,31 @@
 
 📌 𝗔𝗿𝗿𝗮𝘆𝘀 / 𝗦𝗹𝗶𝗱𝗶𝗻𝗴 𝗪𝗶𝗻𝗱𝗼𝘄 / 𝗣𝗿𝗲𝗳𝗶𝘅 𝗦𝘂𝗺
-• Subarray Sum Equals K – https://lnkd.in/gNbZNMDA
-• Maximum Product Subarray – https://shorturl.at/tcKbG
-• Longest Repeating Character Replacement – https://shorturl.at/ssxWS
+• Subarray Sum Equals K 
+• Maximum Product Subarray 
+• Longest Repeating Character Replacement 
 
 📌 𝗕𝗶𝗻𝗮𝗿𝘆 𝗦𝗲𝗮𝗿𝗰𝗵 & 𝗦𝗼𝗿𝘁𝗲𝗱 𝗔𝗿𝗿𝗮𝘆𝘀
-• Search in Rotated Sorted Array – https://lnkd.in/gupQKBmA
-• Median of Two Sorted Arrays – https://lnkd.in/gdxHNA6D
-• Kth Smallest Element in Sorted Matrix – https://lnkd.in/gD7u-VHj
+• Search in Rotated Sorted Array 
+• Median of Two Sorted Arrays 
+• Kth Smallest Element in Sorted Matrix 
 
 📌 𝗥𝗲𝗰𝘂𝗿𝘀𝗶𝗼𝗻 & 𝗕𝗮𝗰𝗸𝘁𝗿𝗮𝗰𝗸𝗶𝗻𝗴
-• Subsets – https://lnkd.in/gQDrGTB4
-• Word Search – https://lnkd.in/g8NYzbWs
+• Subsets 
+• Word Search 
 
 📌 𝗦𝘁𝗮𝗰𝗸𝘀 / 𝗠𝗼𝗻𝗼𝘁𝗼𝗻𝗶𝗰 𝗦𝘁𝗮𝗰𝗸
-• Largest Rectangle in Histogram – https://lnkd.in/gq8-tFMd
-• Next Greater Element II – https://lnkd.in/geS2zyxr
-• Asteroid Collision – https://lnkd.in/gQVaS7GF
+• Largest Rectangle in Histogram 
+• Next Greater Element II 
+• Asteroid Collision 
 
 📌 𝗟𝗶𝗻𝗸𝗲𝗱 𝗟𝗶𝘀𝘁𝘀
-• Reorder List – https://lnkd.in/gG7Zu25s
-• Reverse Nodes in K Group – https://lnkd.in/gyPj9Yke
+• Reorder List 
+• Reverse Nodes in K Group 
 
 📌 𝗚𝗿𝗮𝗽𝗵𝘀 / 𝗕𝗙𝗦 / 𝗗𝗙𝗦
-• Pacific Atlantic Water Flow – https://lnkd.in/gijuCM8T
-• Word Ladder – https://lnkd.in/gwAYzbHe
-• Clone Graph – https://lnkd.in/gtSAJdum
-
+• Pacific Atlantic Water Flow 
+• Word Ladder 
+• Clone Graph 
 📌 𝗗𝘆𝗻𝗮𝗺𝗶𝗰 𝗣𝗿𝗼𝗴𝗿𝗮𝗺𝗺𝗶𝗻𝗴
-• Coin Change – https://lnkd.in/g85zkvP4
-• Edit Distance – https://lnkd.in/gJW5Sshy
+• Coin Change 
+• Edit Distance 
