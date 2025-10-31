@@ -1,0 +1,601 @@
+1. What is FastAPI, and how is it different from Django and Flask? 
+2. What are the main features of FastAPI? 
+3. Explain how FastAPI handles asynchronous programming. 
+4. What is Pydantic in FastAPI, and how is it used? 
+5. How do you define a request and response model in FastAPI? 
+6. What is dependency injection in FastAPI? 
+7. How does FastAPI handle path parameters and query parameters?
+8. How do you implement authentication and authorization in FastAPI? 
+9. What is the purpose of @app.get(), @app.post(), and other HTTP method decorators? 
+10. How do you serve static files in FastAPI? 
+11. How does FastAPI handle background tasks? 
+12. What are middleware in FastAPI, and how do you create one? 
+13. How do you use WebSockets in FastAPI? 
+14. How do you handle database connections in FastAPI?
+15. How do you implement OAuth2 authentication in FastAPI? 
+16. What is the use of Depends in FastAPI? 
+17. How do you integrate FastAPI with databases like PostgreSQL or MongoDB? 18. How do you handle error handling in FastAPI? 
+19. What is ASGI, and how is it related to FastAPI? 
+20. How do you deploy a FastAPI application?
+
+
+
+
+
+1. What is FastAPI, and how is it different from Django and Flask?
+
+FastAPI is a modern, high-performance Python web framework for building APIs, built on top of Starlette (ASGI toolkit) and Pydantic (data validation). It’s designed around Python type hints to provide:
+
+Automatic request data validation,
+
+Automatic OpenAPI / Swagger and ReDoc docs,
+
+High performance (async-first, uses ASGI servers like Uvicorn/Hypercorn).
+
+How it differs from Django and Flask (practical comparison)
+
+Async-first & performance
+
+FastAPI: Designed for async concurrency (uses ASGI). Great for I/O-bound workloads (web APIs, ML model serving).
+
+Flask: WSGI sync by default (can run async with adapters but not native async-first).
+
+Django: historically WSGI and sync-first; Django 3+ added async capabilities gradually but it’s not as lightweight for async APIs as FastAPI.
+
+Type hints & validation
+
+FastAPI uses Python type hints + Pydantic to validate/parse inputs and document APIs automatically.
+
+Flask/Django require explicit validation (WTForms, DRF serializers, or manual code).
+
+Auto docs
+
+FastAPI auto-generates OpenAPI docs (Swagger UI / ReDoc) without extra work.
+
+Scope
+
+Django: full-stack “batteries included” (ORM, admin, auth, templates, forms).
+
+Flask: microframework — minimal core, you add extensions.
+
+FastAPI: focused on building APIs (not a full monolith): you add DB/templating/other components as needed (often used with SQLAlchemy, Tortoise, or ORMs).
+
+Developer DX
+
+FastAPI gives strong IDE support (type hints), clear error messages for validation, and is very productive for API-first development.
+
+
+2. Main features of FastAPI
+
+Automatic data validation & serialization via Pydantic models.
+
+Automatic interactive docs (Swagger UI & ReDoc) at /docs and /redoc.
+
+Async support (ASGI) — use async def handlers for concurrency.
+
+High performance comparable to Node/Go for I/O-bound workloads.
+
+Dependency injection system with Depends(...).
+
+Type-hinted parameters for path, query, header, cookie, body, form, files.
+
+Easy response models and validation of responses (response_model).
+
+Background tasks and WebSocket support (built-in).
+
+Security utilities (OAuth2, JWT patterns helpers).
+
+Extensible — works with SQLAlchemy, ORMs, authentication libs, middleware.
+
+
+
+3. How FastAPI handles asynchronous programming
+
+Under the hood
+
+FastAPI is built on Starlette (an ASGI framework). ASGI (Asynchronous Server Gateway Interface) allows running async code concurrently in an event loop (asyncio).
+
+You run a FastAPI app with an ASGI server like uvicorn or hypercorn, which manages the event loop and concurrency.
+
+How to write handlers
+
+You can write either synchronous (def) or asynchronous (async def) endpoints.
+
+async def endpoints allow awaiting I/O (DB calls, HTTP calls, file I/O using async libraries) and not block the event loop.
+
+Use def when handler is CPU-bound or uses sync libraries (but beware blocking calls will block the worker).
+
+
+
+4. What is Pydantic in FastAPI, and how is it used?
+
+Pydantic is a library for data parsing and validation using Python type hints. FastAPI uses Pydantic models to:
+
+Validate incoming request data,
+
+Coerce types (strings → ints / dates),
+
+Provide auto-generated docs and clear error messages,
+
+Validate outgoing responses (if response_model used).
+
+
+
+5. How do you define request and response models in FastAPI?
+
+Request model — use Pydantic models as function parameters annotated with the model. FastAPI reads the body and validates it.
+
+Response model — set response_model= on the route decorator so FastAPI validates and filters the response and documents the schema.
+
+
+
+6. What is dependency injection in FastAPI?
+
+Dependency Injection (DI) in FastAPI is a mechanism to declare reusable components (DB sessions, authentication, config, etc.) that you can "inject" into path operations, dependencies can depend on other dependencies.
+
+Use Depends() to declare a dependency.
+
+Functions used as dependencies can yield (for teardown), or be sync/async.
+
+DI improves testability and separation of concerns.
+
+
+
+7. How does FastAPI handle path parameters and query parameters?
+
+FastAPI leverages Python function signature and type hints to parse and validate path and query parameters automatically.
+
+Path parameters
+
+Declared in the route and as function args.
+
+Type conversion and validation using Python types and Pydantic validators.
+
+@app.get("/users/{user_id}")
+async def get_user(user_id: int):
+    # user_id parsed as int, returns 422 if not convertible
+    return {"user_id": user_id}
+
+
+Query parameters
+
+Declared as function parameters with default values (or None) — not part of path.
+
+Use Query(...) from fastapi to add metadata, validation and docs.
+
+from fastapi import Query
+from typing import Optional
+
+@app.get("/search")
+async def search(q: Optional[str] = Query(None, min_length=3, max_length=50),
+                 page: int = Query(1, ge=1, le=100)):
+    return {"q": q, "page": page}
+
+
+q is optional; validating min/max length.
+
+page has numeric bounds.
+
+Path + Query example combined
+
+@app.get("/users/{user_id}/items")
+async def user_items(user_id: int, q: str | None = None, limit: int = 10):
+    # user_id -> path param; q, limit -> query params
+    return {"user_id": user_id, "q": q, "limit": limit}
+
+
+List / multiple values
+
+For query params you can accept lists: tags: list[str] = Query([]) → ?tags=one&tags=two.
+
+Automatic docs
+
+All parameter types, descriptions and validation appear in Swagger UI (/docs) automatically.
+
+
+
+
+8. How to implement authentication & authorization in FastAPI
+
+Authentication = verify identity (who). Authorization = check permissions/roles (what they can do).
+
+Common approaches
+
+OAuth2 / Password (with JWT) — good for APIs.
+
+OAuth2 / Authorization Code (with external providers) — social login.
+
+Session cookies — for browser apps (less common for pure APIs).
+
+API keys — simple token per client/service.
+
+Below is a compact, real-world JWT (OAuth2 password-like) example using python-jose to issue tokens and FastAPI Depends to enforce auth + role-based authorization.
+
+
+
+9. Purpose of @app.get(), @app.post() and other HTTP method decorators
+
+These decorators declare path operations (route handlers) and the HTTP method(s) they respond to.
+
+@app.get("/items/") — handles GET requests (read).
+
+@app.post("/items/") — handles POST (create).
+
+@app.put("/items/{id}") — handles PUT (update/replace).
+
+@app.delete("/items/{id}") — handles DELETE (delete).
+
+@app.patch(...) — partial updates.
+
+@app.options(...), @app.head(...) — other methods.
+
+Why use them
+
+They map URL + HTTP method to Python functions.
+
+FastAPI uses function signature and type hints to auto-parse path/query/body parameters and generate OpenAPI docs.
+
+
+
+10. How to serve static files in FastAPI
+
+FastAPI is built on Starlette; use StaticFiles to mount static directories (CSS, JS, images).
+
+Install if necessary (FastAPI already depends on Starlette): pip install fastapi.
+
+
+
+11. How FastAPI handles background tasks
+
+Two main ways:
+
+1. BackgroundTasks (built-in) — lightweight, runs after response returns in the same process
+
+Good for small tasks (send email, write log). Not durable across worker restarts.
+
+from fastapi import FastAPI, BackgroundTasks
+
+app = FastAPI()
+
+def write_notification(email: str, msg: str):
+    with open("notifications.log","a") as f:
+        f.write(f"{email}: {msg}\n")
+
+@app.post("/send-notif")
+async def send_notif(email: str, background_tasks: BackgroundTasks):
+    background_tasks.add_task(write_notification, email, "welcome")
+    return {"msg": "queued"}
+
+2. External task queues (recommended for production)
+
+Use Celery, RQ, or Huey to run tasks in separate worker processes/hosts, providing retries, scheduling, persistence, monitoring.
+
+Pattern:
+
+FastAPI enqueues task (e.g., Celery .delay()), returns task id.
+
+Worker processes Redis/RabbitMQ jobs and stores results reliably.
+
+Why choose external queue
+
+Durability, retries, monitoring, scaling, isolation from web workers.
+
+
+
+12. What are middleware in FastAPI, and how do you create one?
+
+Middleware are callables that run for every request (or group of requests) before and/or after reaching endpoints. Use them for logging, CORS, request/response modifications, tracing, short-circuiting, etc.
+
+Two styles:
+
+1. Using decorator
+from fastapi import FastAPI, Request
+
+app = FastAPI()
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    import time
+    start = time.time()
+    response = await call_next(request)
+    duration = time.time() - start
+    response.headers['X-Process-Time'] = str(duration)
+    return response
+
+2. Using Starlette middleware classes (for reusability)
+from starlette.middleware.base import BaseHTTPMiddleware
+class SimpleMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        # pre
+        response = await call_next(request)
+        # post
+        response.headers['X-Middleware'] = 'yes'
+        return response
+
+app.add_middleware(SimpleMiddleware)
+
+
+Important
+
+@app.middleware("http") is convenient for simple tasks.
+
+For heavy middleware use BaseHTTPMiddleware to avoid pitfalls around streaming responses.
+
+
+
+13. How to use WebSockets in FastAPI
+
+FastAPI supports WebSockets via WebSocket route. Useful for chat, live updates, streaming.
+
+Minimal example
+
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+
+app = FastAPI()
+
+@app.websocket("/ws")
+async def websocket_endpoint(ws: WebSocket):
+    await ws.accept()
+    try:
+        while True:
+            data = await ws.receive_text()
+            await ws.send_text(f"Echo: {data}")
+    except WebSocketDisconnect:
+        print("Client disconnected")
+
+
+Notes
+
+Use a connection manager to handle multiple clients (broadcast, rooms).
+
+For production scale, use external pub/sub (Redis) or a WebSocket server capable of horizontal scaling.
+
+Uvicorn/Hypercorn are ASGI servers that handle WebSockets.
+
+Simple connection manager
+
+class ConnectionManager:
+    def __init__(self):
+        self.active = []
+    async def connect(self, ws: WebSocket):
+        await ws.accept(); self.active.append(ws)
+    def disconnect(self, ws: WebSocket):
+        self.active.remove(ws)
+    async def broadcast(self, msg: str):
+        for conn in self.active:
+            await conn.send_text(msg)
+
+mgr = ConnectionManager()
+
+@app.websocket("/wschat")
+async def chat(ws: WebSocket):
+    await mgr.connect(ws)
+    try:
+        while True:
+            msg = await ws.receive_text()
+            await mgr.broadcast(msg)
+    finally:
+        mgr.disconnect(ws)
+
+
+14. How to handle database connections in FastAPI
+
+Use dependencies to manage DB sessions: create session per request and close it at the end. Choose sync or async DB approaches.
+
+A — Sync SQLAlchemy (traditional)
+
+Install: pip install sqlalchemy psycopg2-binary (or appropriate DB driver)
+
+# db_sync.py
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from contextlib import contextmanager
+from fastapi import Depends
+
+DATABASE_URL = "sqlite:///./test.db"
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+# dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+Usage in routes:
+
+@app.get("/users")
+def read_users(db = Depends(get_db)):
+    return db.query(User).all()
+
+
+Use Flask-like ORM patterns; wrap long-running or blocking DB ops appropriately if using async server with sync DB—prefer running multiple worker processes.
+
+
+
+
+15. How do you implement OAuth2 authentication in FastAPI?
+
+Short concept: OAuth2 is an authorization framework. In APIs you commonly implement OAuth2 flows like:
+
+Authorization Code (used by web apps / third-party apps; with PKCE for SPAs/mobile)
+
+Client Credentials (machine-to-machine)
+
+Resource Owner Password Credentials (password flow — deprecated for security but often used for simple demos)
+
+Implicit (deprecated)
+
+FastAPI provides helpers for implementing OAuth2 patterns (e.g., OAuth2PasswordBearer, OAuth2AuthorizationCodeBearer) as input parsing/validation and integrates with dependency injection. For production you usually combine OAuth2 with JWT tokens or with an external provider (Auth0, Keycloak, Google).
+
+Below: a practical OAuth2 Password flow + JWT tokens example (the most common demo). It shows issuing tokens at /token and protecting routes with Depends.
+
+
+
+
+16. What is the use of Depends in FastAPI?
+
+Depends is FastAPI’s dependency injection mechanism. It allows you to declare dependencies (functions/classes) that provide values to your endpoint functions (e.g., DB sessions, current user, config). Dependencies can be sync or async, can yield for cleanup (context manager style), and can nest.
+
+Why use it
+
+Reuse logic (auth, DB session creation, caching).
+
+Keep endpoints minimal and testable.
+
+Centralize resource management and error handling.
+
+
+
+17. How do you integrate FastAPI with databases like PostgreSQL or MongoDB?
+
+You can choose sync or async stacks. Below are common patterns.
+
+A — PostgreSQL (sync) with SQLAlchemy (classic)
+
+Use SQLAlchemy sessions per request via a dependency.
+
+# db_sync.py
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+DATABASE_URL = "postgresql://user:pass@localhost:5432/mydb"
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+MongoDB (async) with Motor
+
+Motor is the official async MongoDB driver.
+
+# pip install motor
+from motor.motor_asyncio import AsyncIOMotorClient
+from fastapi import FastAPI
+
+app = FastAPI()
+MONGO_URL = "mongodb://localhost:27017"
+client = AsyncIOMotorClient(MONGO_URL)
+db = client.mydb  # use db in endpoints
+
+@app.post("/notes")
+async def create_note(payload: dict):
+    res = await db.notes.insert_one(payload)
+    return {"id": str(res.inserted_id)}
+
+@app.get("/notes")
+async def list_notes():
+    docs = await db.notes.find().to_list(100)
+    return docs
+
+
+
+
+18. How do you handle error handling in FastAPI?
+
+FastAPI provides HTTPException for quick errors and app.exception_handler to register custom handlers for exceptions. You can also use Pydantic validation and response models.
+
+
+
+19. What is ASGI, and how is it related to FastAPI?
+
+ASGI = Asynchronous Server Gateway Interface. It’s the successor/companion to WSGI for Python web apps, designed for asynchronous communication and protocols beyond HTTP (WebSockets, long-lived connections, background tasks).
+
+Key points
+
+ASGI supports async, concurrency, websockets, and lifespan events.
+
+FastAPI is built on Starlette, an ASGI toolkit — therefore FastAPI apps are ASGI apps.
+
+You run FastAPI with ASGI servers like uvicorn or hypercorn (not with WSGI servers).
+
+ASGI apps expose entrypoints that ASGI servers call; ASGI supports scope, receive, send primitives.
+
+Why it matters
+
+You can write async def endpoints and use async libraries (httpx async, asyncpg, Motor) without blocking the event loop.
+
+WebSockets and Server-Sent Events are native.
+
+Example run
+
+uvicorn app:app --host 0.0.0.0 --port 8000
+# uvicorn is an ASGI server that launches the event loop and serves your Fast
+
+
+
+20. How do you deploy a FastAPI application?
+
+Production deployment involves: ASGI server, reverse proxy, process manager/container, environment config, TLS, scaling. Here are common, practical strategies.
+
+A — Run with Uvicorn / Gunicorn + Uvicorn workers
+
+Single-machine (Gunicorn + Uvicorn workers):
+
+# install
+pip install "uvicorn[standard]" gunicorn
+
+# run with 4 workers
+gunicorn -k uvicorn.workers.UvicornWorker -w 4 -b 0.0.0.0:8000 "myapp:app"
+
+
+-w 4 sets worker processes (use >1 for CPU-bound or sync DB).
+
+UvicornWorker starts an asyncio loop per worker to handle async endpoints.
+
+Alternatively start uvicorn directly with --workers (but Gunicorn is commonly used for process management).
+
+B — Reverse proxy (nginx)
+
+Use nginx to terminate TLS, serve static files, and reverse-proxy to the Uvicorn/Gunicorn socket.
+
+nginx snippet:
+
+server {
+    listen 80;
+    server_name example.com;
+    return 301 https://$host$request_uri;
+}
+server {
+    listen 443 ssl;
+    server_name example.com;
+    ssl_certificate ...; ssl_certificate_key ...;
+
+    location /static/ {
+        alias /var/www/myapp/static/;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+C — Docker + Docker Compose
+
+Create Dockerfile:
+
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-w", "4", "-b", "0.0.0.0:8000", "app:app"]
+
+
+Use docker-compose to add a DB and reverse-proxy as needed.
+
+
+

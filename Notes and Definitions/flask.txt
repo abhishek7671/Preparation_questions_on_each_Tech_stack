@@ -1,0 +1,445 @@
+
+1. What is Flask, and how is it different from Django?
+2. What are Flask Blueprints?
+3. Explain the Flask application lifecycle
+4. What is the role of app.run() in Flask?
+5. How does Flask handle routing?
+6. How do you pass data between Flask routes?
+7. Difference between GET and POST requests in Flask
+8. How do you handle form validation in Flask?
+9. What are Flask extensions? Name a few commonly used extensions.
+10. How do you connect a Flask application to a database?
+11. How does Flask handle request and response objects?
+12. How do you implement authentication and authorization in Flask?
+13. How do you use Flask-SQLAlchemy?
+14. What is Jinja2 templating in Flask?
+15. How do you handle file uploads in Flask?
+16. What is Flask-RESTful, and how is it used?
+17. How can you implement JWT authentication in Flask?
+18. What are Flask middlewares, and how do you create custom middleware?
+19. How do you deploy a Flask application?
+20. How does Flask handle background tasks?
+21. What is path parameters and queries?
+
+
+
+
+1. What is Flask, and how is it different from Django?
+
+Flask is a lightweight microframework for building web applications in Python.
+
+Minimal core: routing, request/response handling, templating (Jinja2), WSGI app.
+
+You add the pieces you need (DB, auth, migrations, forms) via libraries or extensions.
+
+Great for microservices, simple APIs, prototypes, or when you want control.
+
+Key differences vs Django
+
+Opinionated vs unopinionated: Django is “batteries included” (ORM, admin, authentication, forms, migrations). Flask gives the basics and you choose the rest.
+
+Project structure: Django promotes a standard project/app layout; Flask is flexible.
+
+Use cases: Django for full-featured sites (CMS, admin dashboards); Flask for small APIs/services or custom stacks.
+
+Performance: Comparable; Django has many built-ins which can speed development, Flask may be lighter-weight.
+
+
+
+2. What are Flask Blueprints?
+
+Blueprints are a way to organize a Flask app into modular components (similar to Django apps). Each blueprint can hold routes, error handlers, static files, templates — then be registered on the main app.
+
+Why use Blueprints
+
+Split a large app into parts (auth, blog, api).
+
+Keep code modular and reusable.
+
+Register same blueprint multiple times with different URL prefixes if needed.
+
+
+
+3. Explain the Flask application lifecycle
+
+Flask’s request lifecycle — high level:
+
+App creation: app = Flask(__name__) or create_app() factory. App context and config are set.
+
+Incoming HTTP request: WSGI server passes env to Flask.
+
+Request context is pushed: flask.request, flask.g, and flask.session become available.
+
+URL matching / routing: Flask finds the view function for the requested path and method.
+
+Before request handlers: @app.before_request (or blueprint) run.
+
+View function executes: you return response data (string, dict, Response, template, etc.).
+
+After request handlers: @app.after_request(response) can modify response.
+
+Teardown: @app.teardown_request runs after response (good for closing DB connections). Request context is popped.
+
+Response returned to client.
+
+App context vs Request context
+
+App context (current_app, g) is about app-level resources.
+
+Request context (request, session) is specific to a single request.
+
+
+
+4. What is the role of app.run() in Flask?
+
+app.run() starts Flask’s development server (Werkzeug) — convenient for development and local testing.
+
+Not for production: For production, use a WSGI server (Gunicorn, uWSGI, Hypercorn, etc.) and (optionally) an ASGI adapter for async.
+
+Typical call: app.run(host='0.0.0.0', port=5000, debug=True).
+
+debug=True enables auto-reload and the interactive debugger — use only in development.
+
+Example
+
+# development
+python app.py  # app.py calls app.run()
+# production (example)
+gunicorn -w 4 'app:create_app()'
+
+
+5. How does Flask handle routing?
+
+Flask uses the @app.route() decorator to map URL patterns to view functions. It supports:
+
+Static routes: /about
+
+Dynamic segments / path parameters: /users/<int:id>
+
+Converters: int, float, path, uuid, string (default)
+
+HTTP methods: methods=['GET','POST']
+
+Endpoint names: default is function name; url_for() refers by endpoint.
+
+
+
+6. How do you pass data between Flask routes?
+
+Several ways — choose based on lifetime and purpose:
+
+a. Path parameters: part of the URL — used to identify a resource.
+
+/users/<int:user_id> — passed to view function as argument.
+
+b. Query parameters: optional filters ?page=2&sort=desc. Read with request.args.
+
+page = request.args.get('page', 1, type=int)
+
+
+c. Form data: use request.form (from HTML forms submitted with POST).
+
+name = request.form['name']
+
+
+d. JSON body: for APIs, request.get_json().
+
+data = request.get_json()
+
+
+e. Session: store small per-user data across requests (client cookie signed by server).
+
+from flask import session
+session['user_id'] = 42
+
+
+f. Flask g: a request-scoped generic for passing objects (DB connection, current user) between functions during the same request.
+
+g.db = connect_db()
+
+
+g. Cookies: client-side storage via response.set_cookie().
+
+h. Redirect with url_for and query params:
+
+return redirect(url_for('search', q='hello'))
+
+
+
+7. Difference between GET and POST requests in Flask
+
+GET
+
+Used to retrieve data.
+
+Parameters in URL (path or query string).
+
+Idempotent and safe (should not change server state).
+
+Cached by browsers/Proxies.
+
+POST
+
+Used to send data to the server (create a resource or cause side effects).
+
+Data in request body (form or JSON).
+
+Not idempotent by default (re-submitting can create duplicates).
+
+Often used with forms and uploads.
+
+
+
+8. How do you handle form validation in Flask?
+
+Two main approaches:
+
+Manual validation: check request.form fields in your view.
+
+Quick but repetitive and error-prone.
+
+Flask-WTF (WTForms integration): recommended. Define form classes, validators, CSRF protection, and render helpers.
+
+
+
+9. What are Flask extensions? Name a few commonly used extensions.
+
+Flask extensions add functionality to Flask apps (DB, auth, admin UI, migrations, etc.). They integrate with Flask and follow extension patterns.
+
+Common extensions
+
+Flask-SQLAlchemy — ORM wrapper around SQLAlchemy (popular).
+
+Flask-Migrate — Alembic migrations for SQLAlchemy models.
+
+Flask-Login — user session management (login/logout, @login_required).
+
+Flask-WTF — forms and CSRF protection (WTForms integration).
+
+Flask-RESTful / Flask-RESTX — helpers for building REST APIs (optional; many use plain FastAPI for new API projects).
+
+Flask-Mail — sending emails.
+
+Flask-Caching — caching (Redis, filesystem, etc.).
+
+Flask-Admin — admin interface for models.
+
+Flask-Security / Flask-User — prebuilt auth flows.
+
+Flask-Compress — response compression.
+
+Flask-Celery (integration patterns) or just use Celery separately.
+
+
+
+10. How do you connect a Flask application to a database?
+
+Options:
+
+Flask-SQLAlchemy (ORM, recommended for ease).
+
+SQLAlchemy Core (full control).
+
+Raw DB drivers (psycopg2 for Postgres, pymysql for MySQL).
+
+ORM alternatives: Peewee, PonyORM, Tortoise (async).
+
+Flask-SQLAlchemy example
+
+pip install Flask-SQLAlchemy
+
+# app.py
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config.update(
+    SQLALCHEMY_DATABASE_URI='sqlite:///app.db',
+    SQLALCHEMY_TRACK_MODIFICATIONS=False,
+)
+db = SQLAlchemy(app)
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+
+@app.route('/create')
+def create():
+    p = Post(title='Hello')
+    db.session.add(p)
+    db.session.commit()
+    return "created"
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()  # create tables
+    app.run(debug=True)
+
+
+With Flask-Migrate (migrations)
+
+pip install Flask-Migrate
+
+from flask_migrate import Migrate
+migrate = Migrate(app, db)
+# then use 'flask db init', 'flask db migrate', 'flask db upgrade'
+
+
+Using raw driver (psycopg2 example)
+
+import psycopg2
+def get_conn():
+    return psycopg2.connect("dbname=... user=...")
+
+@app.before_request
+def open_conn():
+    g.db = get_conn()
+
+@app.teardown_request
+def close_conn(exc):
+    g.db.close()
+
+
+
+11. How does Flask handle request and response objects?
+
+Request object (flask.request)
+
+Represents the current HTTP request (available when request context is active).
+
+Common attributes:
+
+request.method — HTTP method ('GET', 'POST')
+
+request.args — query params (ImmutableMultiDict)
+
+request.form — form data from POST
+
+request.files — uploaded files
+
+request.json / request.get_json() — parsed JSON body
+
+request.headers — headers dict
+
+request.cookies — cookies
+
+request.path, request.url, request.base_url
+
+Use inside view functions while request context is pushed (during request).
+
+Response object
+
+You can return several types: strings, dicts (Flask auto-jsonifies if using app.response_class?), tuple of (body, status, headers), or a Response object.
+
+Helpers:
+
+from flask import make_response, jsonify, Response
+
+make_response("hello", 201) returns a proper Response
+
+jsonify(dict) sets Content-Type: application/json and serializes.
+
+
+
+12. How do you implement authentication and authorization in Flask?
+
+Authentication = verify who the user is.
+Authorization = decide what an authenticated user may do (roles/permissions).
+
+Common stack:
+
+Authentication: Flask-Login (session-based) or JWT (for APIs) using Flask-JWT-Extended.
+
+Authorization: role checks, decorators, or libraries like Flask-Principal (but a simple custom decorator is commonly used).
+
+
+13. How do you use Flask-SQLAlchemy?
+
+Flask-SQLAlchemy wraps SQLAlchemy to integrate with Flask app context, sessions, and configuration. It provides models, queries, sessions the idiomatic way.
+
+
+
+14. What is Jinja2 templating in Flask?
+
+Jinja2 is Flask’s template engine. It renders HTML with variables, control flow, inheritance, filters, macros, and autoescaping.
+
+Key features:
+
+Template inheritance ({% extends %} + {% block %})
+
+Control structures: {% for %}, {% if %}.
+
+Filters: {{ name|upper }}, {{ date|datetimeformat }}.
+
+Autoescaping for HTML (prevents XSS by default for templates marked HTML).
+
+
+15. How do you handle file uploads in Flask?
+
+Use request.files and werkzeug.utils.secure_filename to save uploaded files safely. Configure max size and uploads folder.
+
+
+16. What is Flask-RESTful, and how is it used?
+
+Flask-RESTful is an extension that adds helpful abstractions for building REST APIs (Resource classes, request parsing, automatic JSON responses). Many teams use plain Flask + Marshmallow or FastAPI for new projects, but Flask-RESTful remains common.
+
+
+
+17. How can you implement JWT authentication in Flask?
+
+Flask-JWT-Extended is a popular library providing access and refresh tokens, decorators, and helpers.
+
+
+18. What are Flask middlewares, and how do you create custom middleware?
+
+Middleware sits between the WSGI server and your app, or between request and view, to inspect/modify requests/responses.
+
+Two kinds:
+
+Flask-level hooks: @app.before_request, @app.after_request, @app.teardown_request.
+
+WSGI middleware: callable that wraps the WSGI app.
+
+
+19. How do you deploy a Flask application?
+
+Several common production deployment patterns. Key goals: run Flask with a production WSGI server, use reverse proxy, configure environment, manage static files, secure TLS.
+
+Typical production stack
+
+WSGI server: Gunicorn or uWSGI (serve Python app).
+
+Reverse proxy: nginx in front for TLS termination, static files, buffering.
+
+Process manager: systemd, supervisor, or container orchestration (Docker + Kubernetes).
+
+Optional: load balancer, caching layer (Redis), DB managed service, object storage for static/uploads.
+
+
+20. How does Flask handle background tasks?
+
+Flask itself is synchronous by default and built for handling web requests. If you put long-running work inside a request handler, it will block the worker handling that request (and if your server has few workers, it will block the whole app). So background tasks must be moved out of the request/response cycle.
+
+Common approaches (with pros/cons and runnable examples):
+
+A — Use a task queue + worker (recommended for production)
+
+Popular tools: Celery (with Redis/RabbitMQ broker), RQ (Redis Queue), Huey, or external serverless jobs.
+
+Why use it: reliable, scalable, supports retries, scheduling, result backends, multiple workers, fault tolerance.
+
+Concept: Request enqueues a job (task id returned immediately). A separate worker process picks jobs from broker and executes them.
+
+
+
+21. What is path parameters and queries?
+
+Concise definitions, differences, and Flask examples.
+
+Definitions
+
+Path parameters (path variables): parts of the URL path that identify a resource. They are positional and commonly required by the route. Example: /users/123 → 123 is a path parameter (user id).
+
+Query parameters: key=value pairs appended after ? in the URL, used for filtering, sorting, pagination, optional modifiers. Example: /users?active=true&page=2.
+
+

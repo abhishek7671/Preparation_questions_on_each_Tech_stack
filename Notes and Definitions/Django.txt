@@ -1,4 +1,35 @@
 1. What is Django, and what are its main features?
+2. What is Django ORM? How is it different from SQLAlchemy?
+3. Explain Django's MVT architecture.
+4. What are Django models? How do you define a model?
+5. How does Django handle database migrations?
+6. What is the difference between ForeignKey, OneToOneField, and ManyToManyField?
+7. What are Django signals? How are they used?
+8. How does Django handle authentication and authorization?
+9. What is middleware in Django? Can you name some built-in middlewares?
+10. Explain the role of settings.py in a Django project.
+11. How do you optimize database queries in Django?
+12. What is the difference between select_related and prefetch_related?
+13. How does Django handle caching?
+14. What are class-based views (CBVs), and how are they different from function-based views (FBVs)?
+15. How can you deploy a Django application?
+16. What is Django Rest Framework (DRF)? Why is it used?
+17. How do you implement JWT authentication in Django?
+18. How do you handle file uploads in Django?
+19. How does Django manage sessions?
+20. What are querysets and managers in Django?~
+21. difference between django, flask and fastapi?
+22. difference between orm and raw sql?
+23. which one is gives the data after adding the filter orm or raw sql?
+24. what is authentication and its types?
+25. what is class meta?
+26. what is path parameters and queries?
+
+
+
+
+
+1. What is Django, and what are its main features?
 
 
 Django Overview:
@@ -201,7 +232,7 @@ DATABASES = {
 
 
 
-1. How do you optimize database queries in Django?
+11. How do you optimize database queries in Django?
 Optimizing database queries in Django is essential for performance and scalability. Here are several techniques:
 
 Techniques for Query Optimization:
@@ -256,7 +287,7 @@ Store query results in cache instead of hitting the database every time.
 
 
 
-2. What is the difference between select_related and prefetch_related?
+12. What is the difference between select_related and prefetch_related?
 
 Feature	select_related	prefetch_related
 Use Case	              Many-to-One (ForeignKey)	                Many-to-Many (ManyToManyField)
@@ -270,7 +301,7 @@ employees = Employee.objects.select_related('department')  # ForeignKey (efficie
 employees = Employee.objects.prefetch_related('skills')  # ManyToMany (efficient batch queries)
 
 
-3. How does Django handle caching?
+13. How does Django handle caching?
 Django supports caching to improve performance and reduce database load.
 
 Types of Caching in Django:
@@ -290,7 +321,7 @@ CACHES = {
 }
 
 
-4. What are class-based views (CBVs), and how are they different from function-based views (FBVs)?
+14. What are class-based views (CBVs), and how are they different from function-based views (FBVs)?
 
 
 Feature	              Function-Based Views (FBVs)	                  Class-Based Views (CBVs)
@@ -315,7 +346,7 @@ class EmployeeListView(View):
         return render(request, "employees.html", {"employees": employees})
 
 
-5. How can you deploy a Django application?
+15. How can you deploy a Django application?
 Steps to Deploy a Django App:
 Set Up a Virtual Environment
 
@@ -350,7 +381,7 @@ python manage.py migrate
 python manage.py collectstatic
 
 
-6. What is Django Rest Framework (DRF)? Why is it used?
+16. What is Django Rest Framework (DRF)? Why is it used?
 Django Rest Framework (DRF) is a powerful toolkit for building REST APIs in Django.
 
 Why use DRF?
@@ -373,7 +404,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
 
 
-7. How do you implement JWT authentication in Django?
+17. How do you implement JWT authentication in Django?
 Steps to Implement JWT Authentication:
 Install djangorestframework_simplejwt:
 
@@ -394,7 +425,7 @@ def get_tokens_for_user(user):
     return {"refresh": str(refresh), "access": str(refresh.access_token)}\
 
 
-8. How do you handle file uploads in Django?
+18. How do you handle file uploads in Django?
 Steps for Handling File Uploads:
 Define a Model:
 
@@ -416,7 +447,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 
-9. How does Django manage sessions?
+19. How does Django manage sessions?
 Uses database-backed sessions by default (django.contrib.sessions).
 
 Supports file-based, cached, or cookie-based sessions.
@@ -427,10 +458,163 @@ request.session['username'] = 'JohnDoe'
 username = request.session.get('username', 'Guest')
 
 
-10. What are querysets and managers in Django?
+20. What are querysets and managers in Django?
 QuerySet: Represents a collection of database records.
 Manager: Provides the API for database queries.
 
 Example:
 
 employees = Employee.objects.filter(department="HR")  # QuerySet
+
+
+21. Difference between Django, Flask, and FastAPI
+
+Short summary
+
+Django — a full-featured "batteries included" web framework (ORM, admin, auth, templating, forms, sessions). Best for large apps where convention, built-in features, and rapid development are priorities.
+
+Flask — a microframework: minimal core, you add libraries as needed. Flexible and simple — great for small apps, prototypes, or when you want control over components.
+
+FastAPI — modern, async-first framework optimized for building high-performance APIs with automatic type-validated request/response and auto-generated OpenAPI docs. Great for APIs and async workloads.
+
+
+22. Difference between ORM and raw SQL
+
+Definitions
+
+ORM (Object-Relational Mapper): A library that maps database tables to classes/objects. You work in Python objects; the ORM translates to SQL. Examples: Django ORM, SQLAlchemy (Core + ORM), Peewee.
+
+Raw SQL: You write SQL strings/queries directly and execute them against the DB (via a DB driver).
+
+
+Aspect	                    ORM	                                                                Raw SQL
+
+Productivity	        High — write Python, less boilerplate	                                Lower — write SQL manually
+Readability	            High for simple queries	                                                Good for complex, DB-specific queries
+Safety	                Parameterized queries by default (less SQL injection risk)	            Risk of SQL injection if not parameterized
+Performance	            Good generally, but heavy/complex queries may be less optimal	        Best for complex, tuned queries
+Portability	            Abstracts DB differences	                                            Possible DB-specific SQL required
+
+
+23. Which returns data after applying filters: ORM or raw SQL?
+
+Both do.
+
+ORM filter results in SQL that performs filtering on the database and returns only matching rows.
+
+Raw SQL returns whatever your SQL query requests — so if you put a WHERE clause, the DB will return filtered data.
+
+
+24. What is authentication and its types?
+
+Authentication = process of verifying who a user or system is (identity). Different from authorization which decides what an authenticated user is allowed to do.
+
+Common types of authentication
+
+1. Session-based authentication
+
+Classic web approach: user logs in, server creates a session and stores session id in server-side store; cookie with session id is sent to client.
+
+Example: Django default django.contrib.auth with session cookies.
+
+Pros: server controls session lifecycle; easy to revoke.
+
+Cons: not ideal for APIs consumed by non-browser clients.
+
+2. HTTP Basic Authentication
+
+Client sends Authorization: Basic base64(user:pass) each request.
+
+Pros: simple.
+
+Cons: credentials sent each request (must use HTTPS). Not stateful.
+
+3. Token-based authentication
+
+Server issues a token after login (random string). Client sends token in headers (Authorization: Token <token>).
+
+Example: Django REST Framework TokenAuth.
+
+Pros: works for APIs; simple.
+
+Cons: token revocation/rotation management needed.
+
+4. JWT (JSON Web Tokens)
+
+Stateless tokens containing claims (often signed). Client sends token (Authorization: Bearer <jwt>).
+
+Pros: scalable (server doesn’t need to store sessions), can include info in token payload.
+
+Cons: revocation harder; token size and security considerations; use short TTL or refresh tokens.
+
+5. OAuth 2.0 / OpenID Connect
+
+Industry standard for delegated authorization (OAuth2) and identity (OIDC). Used for social login (Google, Facebook) or providing access tokens to 3rd-party apps.
+
+Typically involves access tokens + refresh tokens.
+
+Example: Login with Google (OIDC), or API using OAuth2 Client Credentials flow.
+
+6. API keys
+
+Static keys assigned to clients used in header or query param.
+
+Pros: simple for machine-to-machine auth.
+
+Cons: limited security features; rotate keys regularly.
+
+7. LDAP / Active Directory
+
+Enterprise directory-based auth. Applications authenticate against LDAP server.
+
+Common in corporate environments.
+
+8. SAML / SSO
+
+Enterprise SSO (SAML). SSO providers let users sign in once for multiple apps.
+
+9. Mutual TLS (mTLS)
+
+Client and server authenticate with TLS certificates. Strong for service-to-service.
+
+10. Multi-factor authentication (MFA)
+
+Combines something you know (password) with something you have (OTP app) or something you are (biometric).
+
+
+
+25. What is class Meta?
+
+class Meta is a common pattern in Django (and some other libraries) used to provide configuration options to classes (models, forms, serializers, etc.). It’s a nested inner class named Meta where Django reads metadata.
+
+Where used & examples
+
+Django Model
+
+from django.db import models
+
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ['-published_date']   # default ordering
+        db_table = 'my_books'            # custom DB table name
+        unique_together = ('title', 'author')  # constraint
+
+
+26. Path parameters vs Query parameters
+
+Definitions
+
+Path parameters are part of the URL path and used to identify a specific resource. Example: /users/123 — 123 is a path param (often resource id).
+
+Query parameters are key/value pairs after ? that refine or filter the resource. Example: /users?active=true&page=2.
+
+Characteristics
+
+Path params are required (by URL pattern) and represent the resource identity.
+
+Query params are optional filters/options and can be many/complex.
+
+Both can be used together.
