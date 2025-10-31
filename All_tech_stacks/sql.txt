@@ -6,3 +6,17 @@ SQL:
 3. Find the second highest salary
 4. Find employees who earn morethan their manager
 5. top-selling products per category
+
+
+
+
+What is the difference between INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL JOIN?
+How do you optimize SQL queries for better performance?
+What are indexes in SQL, and how do they improve query performance?
+Explain the difference between HAVING and WHERE clauses in SQL.
+What is normalization? Explain different normal forms (1NF, 2NF, 3NF, BCNF).
+What is a stored procedure? How is it different from a function?
+Explain the concept of transactions in SQL. What are ACID properties?
+What is the difference between CHAR and VARCHAR data types?
+How do you handle database deadlocks?
+Write an SQL query to find the second-highest salary from an employees table.

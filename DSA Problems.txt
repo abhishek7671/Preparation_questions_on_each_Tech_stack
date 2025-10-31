@@ -29,3 +29,167 @@
 📌 𝗗𝘆𝗻𝗮𝗺𝗶𝗰 𝗣𝗿𝗼𝗴𝗿𝗮𝗺𝗺𝗶𝗻𝗴
 • Coin Change 
 • Edit Distance 
+
+
+
+
+
+
+
+ARRAYS & STRINGS:
+
+two sum
+best time to buy and sell stock
+product of array except self
+maximum subarray(kadane's aalgorithm)
+merge intervals
+find minimum in rotated sorted array
+search in rotated sorted array
+3 sum
+container with most water
+subarray sum equals k
+valid palindrome
+longest substring without repeating characters
+longest palindromic substring
+group anagrams
+valid parentheses
+minimum window substring
+trapping rain water
+jump game
+rotate image
+spiral matrix
+sliding window maximum (added for its frequent appearance in interviews)
+
+
+
+LINKED LISTS:
+
+reverse a linked lists
+detect cycle in a linked list (Floyd's algorithm)
+merge two sorted lists
+remove Nth node from end of list
+add two number (linked list)
+intersection of two linked lists
+copy list with random pointer
+LRU Cache (design)
+Palindrome linked list
+Flatten a multilevel double linked list
+
+
+
+TREES:
+
+maximum depth of binary tree
+validate binary search tree
+invert binary tree
+binary tree level order traversal
+serialize and deserialize binary tree
+lowest common ancestor (LCA) of a binary tree
+subtree of another tree
+construct binary tree from preorder and inorder traversal
+Kth smallest element in a BST
+binary tree maximum path sum
+
+
+
+
+GRAPHS:
+
+Clone graph
+course schedule (topological sort)
+number of islands(DFS/BFS)
+pacific atlantic water flow
+word ladder(BFS)
+alien dictionary (tpological sort)
+cheapest flights within K stops (Dijkstra's/ Bellman-Ford)
+network delay time (Dijkstra's)
+minimum height trees (centroid BFS)
+graph valid tree (uNION-find)
+
+
+
+
+HEAPS & PRIORITY QUEUES:
+
+Kth largest element in a stream
+find medium from data stream
+top K frequent element
+K closest points to origin
+task scheduler
+
+
+
+
+STACKS & QUEUES:
+
+Implement queue using stacks
+implement stack using queues
+min stack
+evaluate reverse polish notation next
+greater element (monotonic stack)
+
+
+
+
+DYNAMIC PROGRAMMING:
+
+Climbing stairs
+coin change
+longest increasing subsequence
+word break
+house robber
+unique paths
+decode ways
+edit distance
+maximum product subarray
+partition equal subset sum
+longest palindromic subsequence (added as another classic DP problem)
+
+
+
+
+BACKTRACKING:
+
+subsets
+permutations
+combination sum
+generate parentheses
+sudoku solver
+N-Queens
+palindrome partitioning
+letter combinations of a phone number
+restore IP addresses
+word search
+
+
+
+BINARY SEARCH:
+
+Find first and last position of an element
+search a 2D matrix
+Median of two sorted arrays
+Sqrt(x)
+koko Eating Bananas
+Capacity to ship packages within D days
+Split Array largest sum
+H-index II
+Time based Key-Value Store
+
+
+
+HASH TABLES & TRIES:
+
+Implemented trie (prefix tree)
+design hashmap
+first unique character in a string
+longest consecute sequence
+
+
+
+MISCELLANEOUS:
+
+set matrix zeroes
+find the duplicate number (Floyd's Algorithm)
+Queue reconstruction by height
+insert interval
+longest valid parentheses (added to complete the list)

@@ -1,0 +1,870 @@
+1. What is Dynamic in Python?
+
+Definition:
+
+Python is called a dynamically typed language because you don’t need to declare variable types explicitly — the type is determined at runtime.
+
+Real-time Example:
+
+If you assign an integer to a variable and later assign a string, Python allows it — no compilation error.
+
+
+Example Code:
+x = 10        # integer
+print(type(x))  # <class 'int'>
+
+x = "Hello"   # now it's a string
+print(type(x)) 
+
+
+
+2. Difference between is and ==
+Definition:
+
+== → compares values (content equality)
+
+is → compares identities (object memory address)
+
+Real-time Example:
+
+Checking if two variables point to the same object or just have the same content.
+
+Example Code:
+a = [1, 2, 3]
+b = [1, 2, 3]
+c = a
+
+print(a == b)  # True → same values
+print(a is b)  # False → different memory addresses
+print(a is c)  # True → same object reference
+
+
+
+3. What is a Decorator?
+Definition:
+
+A decorator is a function that adds extra functionality to another function without changing its structure.
+
+Real-time Example:
+
+Used for logging, authentication, performance measurement in web apps (e.g., Django, Flask).
+
+Example Code:
+def log_decorator(func):
+    def wrapper():
+        print("Function is about to run")
+        func()
+        print("Function has finished running")
+    return wrapper
+
+@log_decorator
+def say_hello():
+    print("Hello, Abhishek!")
+
+say_hello()
+
+
+
+4. What is a Generator?
+Definition:
+
+A generator is a special function that yields values one at a time instead of returning them all at once.
+It uses the yield keyword.
+
+Real-time Example:
+
+Used to process large datasets or streaming data efficiently without loading everything into memory.
+
+Example Code:
+def number_generator():
+    for i in range(1, 6):
+        yield i
+
+for num in number_generator():
+    print(num)
+
+
+
+5. What is an Iterator?
+Definition:
+
+An iterator is an object that returns one element at a time using the __iter__() and __next__() methods.
+
+Real-time Example:
+
+When looping through lists, tuples, or files, Python uses iterators internally.
+
+Example Code:
+numbers = [10, 20, 30]
+it = iter(numbers)
+
+print(next(it))  # 10
+print(next(it))  # 20
+print(next(it))  # 30
+
+Types of Iterators:
+
+Built-in iterators: Lists, tuples, strings, etc.
+
+User-defined iterators: Created using classes with __iter__() and __next__() methods.
+
+
+
+6. Difference between Generator and Iterator
+Feature	                Generator	                         Iterator
+Creation	            Created using yield	                 Created using iter()
+Memory	                Saves memory (lazy evaluation)	     Can use more memory
+Syntax	                Function-based	                     Class/object-based
+Example	def             gen(): yield	                     iter(list)
+
+
+Example:
+# Generator
+def gen():
+    for i in range(3):
+        yield i
+
+# Iterator
+lst = [1, 2, 3]
+it = iter(lst)
+
+print(list(gen()))  # [0, 1, 2]
+print(list(it))     # [1, 2, 3]
+
+
+
+7. Difference between List and Tuple
+Feature	                List	            Tuple
+Syntax	                []	                ()
+Mutable	                ✅ Yes	          ❌ No
+Speed	                Slower	            Faster
+Use Case	            When data changes	When data is fixed
+Example Code:
+my_list = [1, 2, 3]
+my_tuple = (1, 2, 3)
+
+my_list[0] = 10   # Allowed
+# my_tuple[0] = 10  # ❌ Error
+
+print(my_list)  # [10, 2, 3]
+print(my_tuple) # (1, 2, 3)
+
+
+
+8. Types of Comprehensions
+Definition:
+
+Comprehensions are shortcuts for creating sequences (like lists, sets, or dicts) in one line.
+
+Types:
+
+List Comprehension
+
+Set Comprehension
+
+Dictionary Comprehension
+
+Generator Comprehension
+
+Examples:
+# 1️⃣ List Comprehension
+squares = [x**2 for x in range(5)]
+print(squares)  # [0, 1, 4, 9, 16]
+
+# 2️⃣ Set Comprehension
+unique = {x for x in [1, 2, 2, 3, 3, 4]}
+print(unique)  # {1, 2, 3, 4}
+
+# 3️⃣ Dict Comprehension
+square_dict = {x: x**2 for x in range(3)}
+print(square_dict)  # {0: 0, 1: 1, 2: 4}
+
+# 4️⃣ Generator Comprehension
+gen = (x**2 for x in range(3))
+print(next(gen))  # 0
+print(next(gen))  # 1
+
+
+9. What is a Function?
+Definition:
+
+A function is a reusable block of code that performs a specific task.
+
+Types of Functions:
+
+Built-in functions → len(), print(), type()
+
+User-defined functions → created using def
+
+Lambda functions → anonymous, single-line functions
+
+Recursive functions → call themselves
+
+Example:
+def greet(name):
+    return f"Hello {name}"
+
+print(greet("Abhishek"))
+
+Normal vs Recursive Function:
+
+Type	            Definition	                    Example
+Normal Function     Executes sequentially	        Calculates sum, prints data
+Recursive Function	Calls itself	                Factorial, Fibonacci
+
+
+Example Code (Recursive):
+def factorial(n):
+    if n == 1:
+        return 1
+    return n * factorial(n - 1)
+
+print(factorial(5))  # 120
+
+
+10. What is Lambda Function?
+Definition:
+
+A lambda is a small, anonymous function (without a name), usually written in one line using the syntax:
+
+lambda arguments: expression
+
+Real-time Example:
+
+Used in short operations like sorting, filtering, or mapping in data pipelines.
+
+Example Code:
+# Simple lambda
+add = lambda a, b: a + b
+print(add(10, 20))  # 30
+
+# Lambda with map()
+nums = [1, 2, 3, 4]
+squares = list(map(lambda x: x**2, nums))
+print(squares)  # [1, 4, 9, 16]
+
+# Lambda with filter()
+even = list(filter(lambda x: x % 2 == 0, nums))
+print(even)  # [2, 4]
+
+# Lambda with sorted()
+names = ["Rahul", "Amit", "Ravi"]
+sorted_names = sorted(names, key=lambda x: x[-1])
+print(sorted_names)  # ['Ravi', 'Rahul', 'Amit']
+
+
+
+11. What is map(), filter(), and reduce()?
+Definition:
+
+They are higher-order functions used to process iterables like lists.
+
+Function	            Description	                                        Returns
+map()	                Applies a function to every item in an iterable	    Transformed iterable
+filter()	            Keeps items that satisfy a condition	            Filtered iterable
+reduce()	            Reduces an iterable to a single value	            Single result
+
+🔹 reduce() must be imported from functools.
+
+Real-time Example:
+
+Used for data transformations, filtering datasets, and aggregations (e.g., summing sales, filtering valid records).
+
+Example Code:
+from functools import reduce
+
+nums = [1, 2, 3, 4, 5]
+
+# map()
+squares = list(map(lambda x: x**2, nums))
+print("Squares:", squares)  # [1, 4, 9, 16, 25]
+
+# filter()
+evens = list(filter(lambda x: x % 2 == 0, nums))
+print("Evens:", evens)  # [2, 4]
+
+# reduce()
+sum_all = reduce(lambda x, y: x + y, nums)
+print("Sum:", sum_all)  # 15
+
+
+
+12. What is a Module and a Package?
+Module:
+
+A module is a single Python file (.py) that contains functions, classes, or variables.
+
+Package:
+
+A package is a collection of modules organized in a directory with an __init__.py file.
+
+Real-time Example:
+
+In Django or Flask:
+
+views.py, models.py, and urls.py are modules.
+
+The whole my_app folder is a package.
+
+Example Code:
+
+📁 math_operations/
+
+__init__.py
+addition.py
+subtraction.py
+
+
+addition.py
+
+def add(a, b):
+    return a + b
+
+
+main.py
+
+from math_operations import addition
+
+print(addition.add(5, 3))  # 8
+
+
+
+13. What is Pickling and Unpickling?
+Definition:
+
+Pickling: Converting a Python object into a binary file format.
+
+Unpickling: Loading the object back into memory.
+
+✅ Used for saving machine learning models or caching data.
+
+Example Code:
+import pickle
+
+data = {"name": "Abhishek", "age": 26}
+
+# Pickling (Save object)
+with open("data.pkl", "wb") as file:
+    pickle.dump(data, file)
+
+# Unpickling (Load object)
+with open("data.pkl", "rb") as file:
+    loaded_data = pickle.load(file)
+
+print(loaded_data)
+
+
+Output:
+
+{'name': 'Abhishek', 'age': 26}
+
+
+
+14. What is a Class?
+Definition:
+
+A class is a blueprint for creating objects. It defines attributes (data) and methods (functions).
+
+Real-time Example:
+
+A “Car” class with attributes like brand, color, and methods like start(), stop().
+
+Example Code:
+class Car:
+    def __init__(self, brand, color):
+        self.brand = brand
+        self.color = color
+
+    def start(self):
+        print(f"{self.color} {self.brand} is starting...")
+
+car1 = Car("BMW", "Black")
+car1.start()
+
+
+Output:
+
+Black BMW is starting...
+
+
+
+15. What is an Object?
+Definition:
+
+An object is an instance of a class — it represents a specific realization of the class blueprint.
+
+Real-time Example:
+
+If Car is a class, my_car = Car("Tesla", "Red") is an object.
+
+Example Code:
+car2 = Car("Tesla", "Red")
+print(car2.brand)  # Tesla
+
+
+
+16. What is self and __init__?
+Definition:
+
+self → Refers to the current instance of the class.
+
+__init__ → A constructor method called automatically when creating an object.
+
+Real-time Example:
+
+Used for initializing attributes when a new object is created.
+
+Example Code:
+class Employee:
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+
+    def show_info(self):
+        print(f"Name: {self.name}, Salary: {self.salary}")
+
+emp = Employee("Abhishek", 60000)
+emp.show_info()
+
+
+Output:
+
+Name: Abhishek, Salary: 60000
+
+
+17. What are Instance Method, Class Method, and Static Method?
+
+Method Type	        Description	                Decorator	        Access
+Instance Method	    Works on object data	      —	                Uses self
+Class Method	    Works on class-level data	@classmethod	    Uses cls
+Static Method	    Independent logic	        @staticmethod	    No self or cls
+
+
+Example Code:
+class Company:
+    company_name = "TechCorp"  # class variable
+
+    def __init__(self, emp_name):
+        self.emp_name = emp_name  # instance variable
+
+    def show(self):  # Instance Method
+        print(f"Employee: {self.emp_name}")
+
+    @classmethod
+    def change_company(cls, new_name):  # Class Method
+        cls.company_name = new_name
+
+    @staticmethod
+    def greet():  # Static Method
+        print("Welcome to the company!")
+
+emp1 = Company("Abhishek")
+emp1.show()
+Company.greet()
+Company.change_company("Coforge")
+print(Company.company_name)
+
+
+
+18. What are the 4 Pillars of OOPs?
+Pillar	                    Description	                                Example
+Encapsulation	            Bundling data & methods in a single unit	Private variables, getter/setter
+Abstraction	                Hiding implementation details	            Abstract classes
+Inheritance	                Reusing code from a parent class	        Parent → Child
+Polymorphism	 One method behaves differently for different objects	len(), method overriding
+
+
+Example Code:
+# Inheritance + Polymorphism Example
+class Animal:
+    def speak(self):
+        print("Animal makes a sound")
+
+class Dog(Animal):
+    def speak(self):
+        print("Dog barks")
+
+class Cat(Animal):
+    def speak(self):
+        print("Cat meows")
+
+animals = [Dog(), Cat()]
+for a in animals:
+    a.speak()  # Different outputs for same method
+
+
+
+
+19. What is Abstract Class, Abstract Method, and Concrete Method?
+Definition:
+
+Abstract Class: A class that cannot be instantiated directly and is meant to be subclassed.
+
+Abstract Method: A method declared but not implemented in the abstract class.
+
+Concrete Method: A method fully implemented in a class.
+
+✅ Abstract classes are defined using the abc (Abstract Base Class) module.
+
+Real-time Example:
+
+In a banking system — Payment could be abstract, while CreditCardPayment and UPIPayment are concrete implementations.
+
+Example Code:
+from abc import ABC, abstractmethod
+
+class Payment(ABC):
+    @abstractmethod
+    def pay(self, amount):
+        pass  # Abstract method (no implementation)
+
+    def greet(self):
+        print("Welcome to Payment Gateway")  # Concrete method
+
+class CreditCardPayment(Payment):
+    def pay(self, amount):
+        print(f"Paid ₹{amount} using Credit Card")
+
+payment = CreditCardPayment()
+payment.greet()
+payment.pay(5000)
+
+
+Output:
+
+Welcome to Payment Gateway
+Paid ₹5000 using Credit Card
+
+
+
+
+20. Difference Between Abstract Class and Interface
+Definition
+
+Abstract Class:
+A class that cannot be instantiated directly. It can have abstract methods (without implementation) and concrete methods (with implementation).
+
+Interface (in Python terms):
+Python doesn’t have a strict interface keyword (like Java), but we can achieve it using abstract base classes (ABC) where all methods are abstract — only method declarations, no implementation.
+
+Difference Table
+Feature	                    Abstract Class	                    Interface
+Contains	                Abstract + Concrete methods	Only    Abstract methods
+Inheritance	                Single or Multiple	                Multiple
+Use Case	                When classes share behavior	        When classes share contract/structure
+Example in Python	        abc.ABC with mixed methods	        abc.ABC with only abstract methods
+
+
+
+Example
+from abc import ABC, abstractmethod
+
+# Abstract Class
+class Vehicle(ABC):
+    @abstractmethod
+    def start(self):
+        pass
+
+    def fuel_type(self):
+        print("Petrol or Diesel")
+
+class Car(Vehicle):
+    def start(self):
+        print("Car started")
+
+car = Car()
+car.start()
+car.fuel_type()
+
+
+Output:
+
+Car started
+Petrol or Diesel
+
+
+
+21. Polymorphism
+
+Definition
+
+Polymorphism means “many forms” — the ability of different classes to respond to the same method name in different ways.
+
+Types
+
+Compile-time (Static) — achieved via method overloading (Python doesn’t support true overloading).
+
+Run-time (Dynamic) — achieved via method overriding.
+
+Example (Run-time Polymorphism)
+class Dog:
+    def speak(self):
+        return "Woof!"
+
+class Cat:
+    def speak(self):
+        return "Meow!"
+
+# Polymorphism in action
+for animal in [Dog(), Cat()]:
+    print(animal.speak())
+
+
+Output:
+
+Woof!
+Meow!
+
+
+✅ Real-world Example:
+A “Payment” class could have subclasses like CreditCardPayment and UPIPayment, each implementing make_payment() differently.
+
+
+
+22. Inheritance
+Definition
+
+Inheritance allows a class (child) to acquire properties and methods of another class (parent).
+
+Types of Inheritance
+Type	                    Description	                                    Example
+Single	                    One parent, one child	                        A → B
+Multiple	                Child inherits from multiple parents	        A, B → C
+Multilevel	                Chain of inheritance	                        A → B → C
+Hierarchical	            One parent, multiple children	                A → B, C
+Hybrid	                    Combination of the above	                    A, B → C → D
+
+
+Example
+# Single Inheritance
+class Parent:
+    def show(self):
+        print("Parent method")
+
+class Child(Parent):
+    def display(self):
+        print("Child method")
+
+obj = Child()
+obj.show()
+obj.display()
+
+
+Output:
+
+Parent method
+Child method
+
+
+23. Multithreading and Multiprocessing
+
+Multithreading
+
+Runs multiple threads (smaller units of a process) within the same memory space.
+
+Best for I/O-bound tasks (e.g., API calls, file reading).
+
+Multiprocessing
+
+Runs multiple processes, each with its own memory.
+
+Best for CPU-bound tasks (e.g., computations, ML models).
+
+Example:
+import threading, multiprocessing, time
+
+def worker(name):
+    print(f"{name} started")
+    time.sleep(2)
+    print(f"{name} finished")
+
+# Multithreading
+t1 = threading.Thread(target=worker, args=("Thread-1",))
+t2 = threading.Thread(target=worker, args=("Thread-2",))
+
+t1.start(); t2.start()
+t1.join(); t2.join()
+
+print("Both threads completed")
+
+
+✅ Real-world Example:
+
+Threading: Downloading multiple files at once.
+
+Multiprocessing: Processing large data chunks in parallel.
+
+
+
+
+24. Global Interpreter Lock (GIL)
+Definition
+
+The GIL is a mutex (lock) in the Python interpreter (CPython) that allows only one thread to execute Python bytecode at a time.
+
+Where It Affects
+
+Affects CPU-bound tasks using threading (threads cannot execute in true parallel).
+
+Doesn’t affect I/O-bound tasks much.
+
+Example
+import threading
+
+counter = 0
+def increment():
+    global counter
+    for _ in range(1000000):
+        counter += 1
+
+t1 = threading.Thread(target=increment)
+t2 = threading.Thread(target=increment)
+t1.start(); t2.start()
+t1.join(); t2.join()
+print("Counter:", counter)
+
+
+You might expect 2,000,000, but due to GIL and race conditions, result will be less, showing GIL’s effect.
+
+
+
+25. Synchronous vs Asynchronous
+Synchronous
+
+Tasks execute one after another — blocking behavior.
+
+Each task must wait for the previous to complete.
+
+Asynchronous
+
+Tasks don’t wait — allows concurrent execution using async and await.
+
+Real-world Example
+
+Synchronous: A waiter serves one customer completely before taking another order.
+
+Asynchronous: Waiter takes multiple orders while food is being cooked.
+
+Example
+Synchronous:
+import time
+
+def cook(food):
+    print(f"Cooking {food}...")
+    time.sleep(2)
+    print(f"{food} ready!")
+
+cook("Pizza")
+cook("Burger")
+
+
+Output (takes ~4s)
+
+Cooking Pizza...
+Pizza ready!
+Cooking Burger...
+Burger ready!
+
+Asynchronous:
+import asyncio
+
+async def cook(food):
+    print(f"Cooking {food}...")
+    await asyncio.sleep(2)
+    print(f"{food} ready!")
+
+async def main():
+    await asyncio.gather(cook("Pizza"), cook("Burger"))
+
+asyncio.run(main())
+
+
+Output (takes ~2s)
+
+Cooking Pizza...
+Cooking Burger...
+Pizza ready!
+Burger ready!
+
+
+
+26. shallow copy and deep copy ?
+
+1. Shallow Copy
+
+A shallow copy creates a new object, but does not create copies of the nested (inner) objects inside it.
+Instead, it references the same inner objects as the original.
+
+✅ So changes to nested objects affect both copies.
+
+2. Deep Copy
+
+A deep copy creates a new object and recursively copies all inner (nested) objects.
+So both the outer and inner objects are completely independent.
+
+✅ Changes in one object do NOT affect the other.
+
+
+import copy
+
+# Original list with nested list
+original = [[1, 2, 3], [4, 5, 6]]
+
+# Shallow copy
+shallow = copy.copy(original)
+
+# Deep copy
+deep = copy.deepcopy(original)
+
+# Modify nested list in original
+original[0][0] = 99
+
+print("Original:", original)
+print("Shallow Copy:", shallow)
+print("Deep Copy:", deep)
+Output
+lua
+Copy code
+Original: [[99, 2, 3], [4, 5, 6]]
+Shallow Copy: [[99, 2, 3], [4, 5, 6]]
+Deep Copy: [[1, 2, 3], [4, 5, 6]]
+
+
+🧩 Explanation:
+
+Shallow copy shares inner lists with the original → changes reflected.
+
+Deep copy makes full independent copies → no change reflected.
+
+
+Scenario 1: Employee Records (Shallow Copy Problem)
+
+Suppose you have a list of employee records (each employee has details stored in a nested list/dict).
+
+
+
+import copy
+
+employee_data = [
+    {"name": "John", "skills": ["Python", "Django"]},
+    {"name": "Emma", "skills": ["React", "Node.js"]}
+]
+
+# Create backup using shallow copy
+backup_data = copy.copy(employee_data)
+
+# Update skill of first employee
+employee_data[0]["skills"].append("AWS")
+
+print("Employee Data:", employee_data)
+print("Backup Data:", backup_data)
+
+Output
+Employee Data: [{'name': 'John', 'skills': ['Python', 'Django', 'AWS']}, ...]
+Backup Data:   [{'name': 'John', 'skills': ['Python', 'Django', 'AWS']}, ...]
+
+
+
+
+
+
