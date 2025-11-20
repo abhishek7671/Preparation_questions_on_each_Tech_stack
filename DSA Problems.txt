@@ -193,3 +193,24 @@ find the duplicate number (Floyd's Algorithm)
 Queue reconstruction by height
 insert interval
 longest valid parentheses (added to complete the list)
+
+
+
+
+
+Two Sum 
+- Merge Intervals 
+- Best Time to Buy and Sell Stock 
+- Group Anagrams 
+- Valid Parentheses 
+- Longest Substring Without Repeating Characters 
+- Flood Fill 
+- Word Ladder 
+- Number of Islands 
+- Clone Graph 
+- Kth Largest Element 
+- Subsets 
+- Permutations
+- Coin Change 
+- LRU Cache 
+- Median of Two Sorted Arrays
