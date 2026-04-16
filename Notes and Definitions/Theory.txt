@@ -71,6 +71,8 @@ Definition:
 A generator is a special function that yields values one at a time instead of returning them all at once.
 It uses the yield keyword.
 
+A generator is a function that returns values one by one using yield instead of returning everything at once.
+
 Real-time Example:
 
 Used to process large datasets or streaming data efficiently without loading everything into memory.
@@ -116,6 +118,7 @@ Creation	            Created using yield	                 Created using iter()
 Memory	                Saves memory (lazy evaluation)	     Can use more memory
 Syntax	                Function-based	                     Class/object-based
 Example	def             gen(): yield	                     iter(list)
+
 
 
 Example:

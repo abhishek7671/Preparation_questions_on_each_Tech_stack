@@ -1,0 +1,816 @@
+BASIC
+
+
+1. What is the difference between range and xrange? How has this changed over time?
+
+
+
+range() vs xrange() (Python 2)
+
+✅ range()
+Returns a list
+Stores all values in memory
+Slower for large ranges
+
+✅ xrange()
+Returns an iterator (generator-like object)
+Does NOT store all values in memory
+Generates values on demand
+More memory efficient
+
+
+r = range(5)
+print(r)  
+# Output: range(0, 5)
+
+for i in r:
+    print(i)
+
+
+x = xrange(5)
+print(x)  
+# Output: xrange(5)
+
+for i in x:
+    print(i)
+
+
+
+Python 2 → Python 3 Evolution
+
+| Python Version | range() behavior    | xrange()           |
+| -------------- | ------------------- | ------------------ |
+| Python 2       | List (memory heavy) | Efficient iterator |
+| Python 3       | Efficient iterator  | ❌ Removed          |
+
+
+
+2. What does this list comprehension do? 
+
+we can write the code in single line they are 4 types of comprehensions are there 
+
+1️⃣ List Comprehension
+
+[x*2 for x in [1, 2, 3]]
+# Output: [2, 4, 6]
+
+2️⃣ Set Comprehension
+
+{x: x*x for x in range(5)}
+# Output: {0:0, 1:1, 2:4, 3:9, 4:16}
+
+3️⃣ Dictionary Comprehension'
+
+{x: x*x for x in range(5)}
+# Output: {0:0, 1:1, 2:4, 3:9, 4:16}
+
+4️⃣ Generator Comprehension
+
+(x*x for x in range(5))
+
+
+
+3. packing and unpacking of arguments in python
+
+
+👉 Packing = Putting multiple values into a single variable
+
+
+def my_func(*args):
+    print(args)
+
+my_func(1, 2, 3, 4)
+
+
+def my_func(**kwargs):
+    print(kwargs)
+
+my_func(name="Abhi", age=25)
+
+
+👉 Unpacking = Extracting values from a collection into variables
+
+numbers = [1, 2, 3]
+
+a, b, c = numbers
+
+print(a, b, c)
+
+
+numbers = [1, 2, 3, 4]
+
+a, *b = numbers
+
+print(a)  # 1
+print(b)  # [2, 3, 4]
+
+
+4. Merge two dictionaries in Python? - looping through another dictionary is not preferred. Use update () method 
+
+
+Merge Two Dictionaries using update()
+
+👉 The update() method is the simplest way to merge dictionaries without looping manually
+
+
+dict1 = {"a": 1, "b": 2}
+dict2 = {"c": 3, "d": 4}
+
+dict1.update(dict2)
+
+print(dict1)
+
+{'a': 1, 'b': 2, 'c': 3, 'd': 4}
+
+
+dict1 = {"a": 1, "b": 2}
+dict2 = {"b": 20, "c": 3}
+
+dict1.update(dict2)
+
+print(dict1)
+
+{'a': 1, 'b': 20, 'c': 3}
+
+
+5. How to sort a dictionary by key or value 
+
+
+🔥 1. Sort Dictionary by Key
+
+data = {"b": 2, "a": 1, "c": 3}
+
+sorted_by_key = dict(sorted(data.items()))
+
+print(sorted_by_key)
+
+{'a': 1, 'b': 2, 'c': 3}
+
+
+
+🔥 2. Sort Dictionary by Value
+
+data = {"a": 3, "b": 1, "c": 2}
+
+sorted_by_value = dict(sorted(data.items(), key=lambda item: item[1]))
+
+print(sorted_by_value)
+
+{'b': 1, 'c': 2, 'a': 3}
+
+
+6. Method Overloading & Overriding 
+
+👉 Python does NOT support true method overloading like Java/C++
+
+    2. Method Overriding
+    ✅ Definition
+
+    👉 Method Overriding means:
+
+    Child class provides its own implementation of parent class method
+
+
+class Animal:
+    def sound(self):
+        print("Animal makes sound")
+
+class Dog(Animal):
+    def sound(self):
+        print("Dog barks")
+
+d = Dog()
+d.sound()
+
+Dog barks
+
+
+
+| Feature        | Overloading                 | Overriding                   |
+| -------------- | --------------------------- | ---------------------------- |
+| Definition     | Same method, different args | Same method, different class |
+| Happens in     | Same class                  | Parent → Child class         |
+| Python support | Not direct (use tricks)     | Fully supported              |
+| Purpose        | Flexibility                 | Custom behavior              |
+
+
+7. How self-keyword works in Python? 
+
+What is self in Python?
+
+👉 self refers to the current instance (object) of the class it is used in the function inside as a parameter
+
+👉 It is used to:
+
+Access instance variables
+Call instance methods
+
+class Person:
+    def __init__(self, name):
+        self.name = name   # instance variable
+
+    def greet(self):
+        print("Hello", self.name)
+
+p1 = Person("Abhi")
+p1.greet()
+
+
+8. How to use Super method in Python? 
+
+🔹 What is super() in Python?
+
+👉 super() is used to:
+
+Call methods from the parent (base) class inside a child class
+
+🔥 Why do we need super()?
+
+👉 When you override a method in a child class but still want:
+Parent class logic
+Plus additional child logic
+
+
+
+class Parent:
+    def show(self):
+        print("This is Parent class")
+
+class Child(Parent):
+    def show(self):
+        super().show()   # calling parent method
+        print("This is Child class")
+
+c = Child()
+c.show()
+
+This is Parent class
+This is Child class
+
+
+9.How enumerate work?  
+
+What is enumerate()?
+
+👉 enumerate() is used to:
+
+Loop through a sequence and get both index and value at the same time
+
+
+fruits = ["apple", "banana", "mango"]
+
+for index, value in enumerate(fruits):
+    print(index, value)
+
+0 apple
+1 banana
+2 mango
+
+
+10. How zip function works? 
+
+🔹 What is zip() in Python?
+
+👉 zip() is used to:
+
+Combine multiple iterables (lists, tuples, etc.) into pairs.
+
+
+names = ["Abhi", "Ravi", "John"]
+marks = [85, 90, 75]
+
+result = zip(names, marks)
+
+print(list(result))
+[('Abhi', 85), ('Ravi', 90), ('John', 75)]
+
+
+
+11. Magic Methods, Dunder Methods in Python 
+
+🔹 What are Magic (Dunder) Methods?
+
+👉 Magic methods = special methods with double underscores
+
+Example:
+
+__init__, __str__, __len__, __add__
+
+👉 Also called:
+
+Dunder methods (Double UNDERscore)
+
+
+
+| Method     | Purpose               |
+| ---------- | --------------------- |
+| `__init__` | Constructor           |
+| `__str__`  | String representation |
+| `__len__`  | Length of object      |
+| `__add__`  | + operator            |
+| `__eq__`   | == comparison         |
+
+
+🔥 1. __init__ (Constructor)
+
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+p = Person("Abhi")
+
+✔️ Automatically called when object is created
+
+
+🔥 2. __str__ (User-Friendly Output)
+
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+    def __str__(self):
+        return f"Person name is {self.name}"
+
+p = Person("Abhi")
+print(p)
+
+👉 Output:
+
+Person name is Abhi
+
+🔥 3. __len__
+
+class MyList:
+    def __init__(self, data):
+        self.data = data
+
+    def __len__(self):
+        return len(self.data)
+
+obj = MyList([1, 2, 3])
+print(len(obj))
+
+👉 Output:
+
+3
+
+🔥 4. __add__ (Operator Overloading)
+
+class Number:
+    def __init__(self, value):
+        self.value = value
+
+    def __add__(self, other):
+        return self.value + other.value
+
+n1 = Number(10)
+n2 = Number(20)
+
+print(n1 + n2)
+
+👉 Output:
+
+30
+
+
+🔥 5. __eq__ (Comparison)
+
+class User:
+    def __init__(self, id):
+        self.id = id
+
+    def __eq__(self, other):
+        return self.id == other.id
+
+u1 = User(1)
+u2 = User(1)
+
+print(u1 == u2)
+
+👉 Output:
+
+True
+
+
+
+12. Difference between a module, package, and script 
+
+🔹 1. What is a Module?
+
+👉 A module is:
+
+A single Python file (.py) that contains code (functions, classes, variables)
+
+✅ Example
+
+📄 math_utils.py
+
+def add(a, b):
+    return a + b
+
+def multiply(a, b):
+    return a * b
+✅ Usage
+import math_utils
+
+print(math_utils.add(2, 3))
+
+
+🔹 2. What is a Package?
+
+👉 A package is:
+
+A collection of multiple modules organized in folders
+
+✅ Example Structure
+my_project/
+│
+├── utils/
+│   ├── __init__.py
+│   ├── math_utils.py
+│   ├── string_utils.py
+✅ Usage
+from utils.math_utils import add
+
+print(add(2, 3))
+
+✔️ Package = Folder of modules
+
+👉 __init__.py → tells Python it's a package
+
+🔹 3. What is a Script?
+
+👉 A script is:
+
+A Python file that is executed directly
+
+✅ Example
+
+📄 main.py
+
+print("This is a script")
+
+x = 10
+print(x)
+
+👉 Run:
+
+python main.py
+
+✔️ Script = Executable Python file
+
+
+| Feature    | Module            | Package                 | Script          |
+| ---------- | ----------------- | ----------------------- | --------------- |
+| Definition | Single `.py` file | Folder of modules       | Executable file |
+| Purpose    | Code reuse        | Organize large projects | Run program     |
+| Example    | `math.py`         | `utils/` folder         | `main.py`       |
+
+
+13. Serialization and Deserialization ?
+
+🔹 What is Serialization?
+
+👉 Serialization means:
+
+Converting Python objects → into a format that can be stored or transferred
+
+📦 Common formats:
+
+JSON
+XML
+Binary (pickle)
+
+
+import json
+
+data = {"name": "Abhi", "age": 25}
+
+json_data = json.dumps(data)
+
+print(json_data)
+
+{"name": "Abhi", "age": 25}
+
+What is Deserialization?
+
+👉 Deserialization means:
+
+Converting stored/transferred data → back into Python objects
+
+import json
+
+json_data = '{"name": "Abhi", "age": 25}'
+
+data = json.loads(json_data)
+
+print(data)
+
+{'name': 'Abhi', 'age': 25}
+
+
+Serialization is the process of converting Python objects into a format like JSON for storage or transmission,
+while deserialization converts that format back into Python objects.
+It is widely used in APIs, data exchange, and storage systems.
+
+
+14. Explain map, reduce, and filter functions 
+
+🔹 1. map() Function
+✅ Definition
+
+👉 map() is used to:
+
+Apply a function to every element in an iterable
+
+numbers = [1, 2, 3, 4]
+
+result = map(lambda x: x * 2, numbers)
+
+print(list(result))
+
+[2, 4, 6, 8]
+
+
+
+🔹 2. filter() Function
+✅ Definition
+
+👉 filter() is used to:
+
+Select elements that satisfy a condition
+
+numbers = [1, 2, 3, 4, 5]
+
+result = filter(lambda x: x % 2 == 0, numbers)
+
+print(list(result))
+
+[2, 4]
+
+
+
+🔹 3. reduce() Function
+✅ Definition
+
+👉 reduce() is used to:
+
+Apply a function cumulatively to reduce iterable → single value
+
+
+from functools import reduce
+
+numbers = [1, 2, 3, 4]
+
+result = reduce(lambda x, y: x + y, numbers)
+
+print(result)
+
+10
+
+
+| Function | Purpose                   | Output Type  |
+| -------- | ------------------------- | ------------ |
+| map()    | Transform each element    | Iterable     |
+| filter() | Select elements           | Iterable     |
+| reduce() | Aggregate to single value | Single value |
+
+
+from functools import reduce
+
+numbers = [1, 2, 3, 4, 5]
+
+# Step 1: filter even numbers
+evens = filter(lambda x: x % 2 == 0, numbers)
+
+# Step 2: double them
+doubled = map(lambda x: x * 2, evens)
+
+# Step 3: sum them
+result = reduce(lambda x, y: x + y, doubled)
+
+print(result)
+
+
+
+🎯 Interview Summary (Perfect Answer)
+
+👉 “map() applies a function to all elements, 
+filter() selects elements based on a condition, and
+reduce() aggregates elements into a single value. 
+These functions are widely used in functional programming and data processing pipelines.”
+
+
+15. Difference between args and kwargs ?
+
+🔹 What is *args?
+✅ Definition
+
+👉 *args is used to:
+
+Pass a variable number of positional arguments to a function
+
+✔️ Stored as a tuple
+
+
+def add(*args):
+    print(args)
+
+add(1, 2, 3)
+
+(1, 2, 3)
+
+
+
+🔹 What is **kwargs?
+✅ Definition
+
+👉 **kwargs is used to:
+
+Pass a variable number of keyword arguments
+
+✔️ Stored as a dictionary
+
+def user_info(**kwargs):
+    print(kwargs)
+
+user_info(name="Abhi", age=25)
+
+{'name': 'Abhi', 'age': 25}
+
+
+| Feature      | `*args`       | `**kwargs`       |
+| ------------ | ------------- | ---------------- |
+| Type         | Tuple         | Dictionary       |
+| Arguments    | Positional    | Keyword          |
+| Symbol       | `*`           | `**`             |
+| Example Call | `func(1,2,3)` | `func(a=1, b=2)` |
+
+
+def func(*args, **kwargs):
+    print("Args:", args)
+    print("Kwargs:", kwargs)
+
+func(1, 2, name="Abhi", age=25)
+
+Args: (1, 2)
+Kwargs: {'name': 'Abhi', 'age': 25}
+
+
+
+16. Reverse a string or a list without using in built python method 
+
+
+🔹 1. Reverse a String (Without Built-in)
+✅ Method 1: Using Loop
+
+def reverse_string(s):
+    result = ""
+    for char in s:
+        result = char + result
+    return result
+
+print(reverse_string("hello"))
+
+olleh
+
+
+✅ Method 2: Using Two Pointers
+
+def reverse_string(s):
+    s = list(s)  # convert to list (strings are immutable)
+    
+    left = 0
+    right = len(s) - 1
+    
+    while left < right:
+        s[left], s[right] = s[right], s[left]
+        left += 1
+        right -= 1
+    
+    return "".join(s)
+
+print(reverse_string("hello"))
+
+
+
+🔹 2. Reverse a List (Without Built-in)
+✅ Method 1: Using Loop
+
+def reverse_list(lst):
+    result = []
+    for item in lst:
+        result = [item] + result
+    return result
+
+print(reverse_list([1, 2, 3, 4]))
+
+
+[4, 3, 2, 1]
+
+
+✅ Method 2: In-place (Two Pointer - Best)
+
+def reverse_list(lst):
+    left = 0
+    right = len(lst) - 1
+    
+    while left < right:
+        lst[left], lst[right] = lst[right], lst[left]
+        left += 1
+        right -= 1
+    
+    return lst
+
+print(reverse_list([1, 2, 3, 4]))
+
+
+17. Explain diff and implementation of list.sort() and sorted(list) 
+
+🔹 1. list.sort() vs sorted()
+✅ list.sort()
+
+👉 Definition:
+
+Sorts the list in-place (modifies original list)
+
+nums = [3, 1, 2]
+nums.sort()
+
+print(nums)
+
+[1, 2, 3]
+
+
+
+✅ sorted()
+
+👉 Definition:
+
+Returns a new sorted list without modifying original
+
+nums = [3, 1, 2]
+
+new_list = sorted(nums)
+
+print(new_list)
+print(nums)
+
+[1, 2, 3]
+[3, 1, 2]
+
+
+
+| Feature           | `list.sort()` | `sorted()`        |
+| ----------------- | ------------- | ----------------- |
+| Type              | List method   | Built-in function |
+| Modifies original | ✅ Yes         | ❌ No              |
+| Return value      | None          | New sorted list   |
+| Works on          | Only lists    | Any iterable      |
+
+
+
+18. How to sort a dictionary and how do you iterate over a dictionary? 
+
+
+🔹 1. How to Sort a Dictionary?
+
+👉 Dictionaries are sorted using sorted() + .items()
+
+✅ Sort by Keys
+
+data = {"b": 2, "a": 1, "c": 3}
+
+sorted_by_key = dict(sorted(data.items()))
+
+print(sorted_by_key)
+
+{'a': 1, 'b': 2, 'c': 3}
+
+✅ Sort by Values
+
+data = {"a": 3, "b": 1, "c": 2}
+
+sorted_by_value = dict(
+    sorted(data.items(), key=lambda x: x[1])
+)
+
+print(sorted_by_value)
+
+
+{'b': 1, 'c': 2, 'a': 3}
+
+
+
+Assert statement 
+
+🔹 What is assert in Python?
+✅ Definition
+
+👉 assert is used to:
+
+Check if a condition is True; if not, raise an error
+
+
+
+

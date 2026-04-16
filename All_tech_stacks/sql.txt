@@ -10,6 +10,7 @@ SQL:
 
 
 
+what are the types of sql commands?
 What is the difference between INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL JOIN?
 How do you optimize SQL queries for better performance?
 What are indexes in SQL, and how do they improve query performance?
@@ -20,3 +21,226 @@ Explain the concept of transactions in SQL. What are ACID properties?
 What is the difference between CHAR and VARCHAR data types?
 How do you handle database deadlocks?
 Write an SQL query to find the second-highest salary from an employees table.
+
+
+
+                                        SQL BASICS:
+
+
+
+    What are the different types of SQL commands?
+
+    What is the difference between DDL and DML?
+
+    What is a database table?
+
+    What is a primary key, and why is it important?
+
+    What is a foreign key?
+
+    What is the difference between DELETE and DROP?
+
+    What is the difference between NULL and 0?
+
+    What is the use of the DISTINCT keyword??
+
+    What is a schema?
+
+
+
+
+                                Filtering & Conditions
+
+
+
+    What is the difference between WHERE and HAVING?
+
+    What are comparison operators in SQL?
+
+    How does the AND / OR operator work?
+
+    What is the IN operator, and when is it used?
+
+    What is the difference between IN and BETWEEN?
+
+    What does the LIKE operator do?
+
+    How does % and _ work in LIKE?
+
+    What is the IS NULL condition?
+
+    What is the difference between = NULL and IS NULL?
+
+    How do you filter dates in SQL?
+
+
+
+
+
+
+                                    Joins
+
+
+
+    What is a JOIN in SQL?
+
+    What is the difference between JOIN and SUBQUERY?
+
+    What is a FULL OUTER JOIN?
+
+    What happens when there is no matching row in a JOIN?
+
+    What is a CROSS JOIN?
+
+    How do joins affect row counts?
+
+    When should you avoid using multiple joins?
+
+    What are join conditions?
+
+    What happens if a join condition is missing?
+
+
+
+
+
+                                Aggregations & Grouping
+
+
+
+    What are aggregate functions in SQL?
+
+    What does the COUNT() function do?
+
+    What is the difference between COUNT(*) and COUNT(column)?
+
+    What does SUM() do?
+
+    What does AVG() calculate?
+
+    What is the use of MIN() and MAX()?
+
+    What is the purpose of the GROUP BY clause?
+
+    Why does SQL throw an error without GROUP BY?
+
+    Can you use WHERE with aggregate functions?
+
+
+
+
+
+                                    Subqueries
+
+
+
+    What is a subquery?
+
+    What is the difference between subquery and JOIN?
+
+    What is a nested query?
+
+    Where can subqueries be used in SQL?
+
+    What is the difference between IN and EXISTS?
+
+    What is a derived table?
+
+    What is a temporary table?
+
+    What is a view, and why is it used?
+
+    What is indexing in simple terms?
+
+    How does an index improve performance?
+
+
+
+
+
+                            Data Modification & Transactions
+
+
+
+
+    What is the difference between INSERT and UPDATE?
+
+    How do you insert multiple rows in SQL?
+
+    What happens if you forget the WHERE clause in UPDATE?
+
+    What is a transaction in SQL?
+
+    What does COMMIT & ROLLBACK do?
+
+    What is referential integrity?
+
+    What is a constraint?
+
+    What is the difference between UNIQUE and PRIMARY KEY?
+
+    Why are constraints important in databases?
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+what are the types of SQL commands?
+difference between Primary key and Unique Key?
+what is the difference between DELETE , TRUNCATE and DROP?
+what is the difference between WHERE and HAVING?
+what are the types of Joins?
+whar is the difference between UNION and UNION ALL?
+what is normalization?
+what is Denormalization?
+what is the difference between CHAR and VARCHAR?
+what is sybquery?
+what is difference between GROUP BY and ORDER BY?
+what is the use of LIMIT in sql?
+what is window function in sql and what are the types of window functions are there?
+what is indexing in sql?
+what is the ACID property in sql?
+Difference between COMMIT and ROLLBACK?
+what is index fragmentation?
+HOW TO AVOID DEADLOCKS IN SQL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HOW TO FIND THE SECOND HIGHEST SALARY IN TABLE?
+HOW TO FIND THE DUPLICATE RECORDS IN A TABLE?
+HOW TO FETCH COMMON RECORDS FROM TWO TABLES?
+HOW TO FIND THE Nth HIGHEST SALARY?
+HOW TO GET THE FIRST 3 MAXIMUM SALARIES?
+HOW TO CALCULATE AGE FROM DATE OF BIRTH ?
+HOW TO FIND ODD AND EVEN RECORDS?
+DUPLICATE EMAILS IN THE EMPLOYEE TABLE?
+HIGHEST SALARY IN EACH DEPARTMENT?
+FIND EMPLOYEES JOINED IN THE LAST 3 MONTHS?
+FIND 5 RECOREDS FROM THE EMPLOYEE NAME IN EMPLOYEE TABLE?
+FIND NUMBER OF EMPLOYEES IN EACH DEPARTMENT?
+LAST 3 RECORDS FROM THE EMPLOYEE TABLE OF EMPLOYEE NAME?
+FIND THE FIRST NAME SATRTING WITH 'A'?
+SWAP TWO COLUMNS IN THE TABLE?
+DISPLAY DUPLICATE RECORDS WITH THEIR COUNT?
+FETCH COMMON RECORDS FROM TWO TABLES WITHOUT JOIN?
+HOW TO DELETE DUPLICATE RECORDS FROM A TABLE?
+FIND DEPARTMENT WITH HIGHEST EMPLOYEE COUNT?
+
+
+
+
