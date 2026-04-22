@@ -5,6 +5,7 @@ In this project, I worked on developing REST APIs using Django REST Framework an
 I built modules for operator allocation, line balancing, performance analytics, and machine downtime tracking. 
 I also worked on integrating data from multiple enterprise systems, ensuring data quality, and supporting reporting through Power BI dashboards. 
 This project helped me gain strong experience in data integration, API design, and building scalable, real-time solutions.
+
 Another important project I worked on is Wel-Wise, which is a centralized platform for managing and securely distributing Power BI reports across the organization. 
 Here, I developed backend services, implemented role-based access control, integrated Azure AD authentication, and built an issue tracking system with automated notifications via email and WhatsApp. 
 I also worked on optimizing PostgreSQL queries and ensuring application security and scalability.
