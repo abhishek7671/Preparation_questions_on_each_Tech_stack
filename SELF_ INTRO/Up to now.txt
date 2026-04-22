@@ -1,9 +1,13 @@
 Hi, I’m Abhishek Kumar Reddy Suda. I have around 3.5+ years of experience as a Software Developer, primarily working on backend development using Python and Django, along with strong exposure to data-driven applications and enterprise systems.
+Currently, I’m working at Welspun Transformation Services, where I’m contributing to enterprise-scale applications. 
+One of my key projects is Wel-SmartOps, an AI-powered Smart Manufacturing Operations Management System. 
+In this project, I worked on developing REST APIs using Django REST Framework and handled SQL Server-based data operations. 
+I built modules for operator allocation, line balancing, performance analytics, and machine downtime tracking. 
+I also worked on integrating data from multiple enterprise systems, ensuring data quality, and supporting reporting through Power BI dashboards. 
+This project helped me gain strong experience in data integration, API design, and building scalable, real-time solutions.
+Another important project I worked on is Wel-Wise, which is a centralized platform for managing and securely distributing Power BI reports across the organization. 
+Here, I developed backend services, implemented role-based access control, integrated Azure AD authentication, and built an issue tracking system with automated notifications via email and WhatsApp. 
+I also worked on optimizing PostgreSQL queries and ensuring application security and scalability.
 
-Currently, I’m working at Welspun Transformation Services, where I’m contributing to enterprise-scale applications. One of my key projects is Wel-SmartOps, an AI-powered Smart Manufacturing Operations Management System. In this project, I worked on developing REST APIs using Django REST Framework and handled SQL Server-based data operations. I built modules for operator allocation, line balancing, performance analytics, and machine downtime tracking. I also worked on integrating data from multiple enterprise systems, ensuring data quality, and supporting reporting through Power BI dashboards. This project helped me gain strong experience in data integration, API design, and building scalable, real-time solutions.
-
-Another important project I worked on is Wel-Wise, which is a centralized platform for managing and securely distributing Power BI reports across the organization. Here, I developed backend services, implemented role-based access control, integrated Azure AD authentication, and built an issue tracking system with automated notifications via email and WhatsApp. I also worked on optimizing PostgreSQL queries and ensuring application security and scalability.
-
-Before Welspun, I worked at Mouri Tech, where I contributed to projects like Solix Data Archiving and a benefits platform for Trinet, where I implemented complex business logic and improved system performance and test coverage.
-
+Before Welspun, I worked at Mouri Tech, where I contributed to projects like Solix Data Archiving and a benefits platform for Trinet, where I implemented complex business logic and improved system performance and test coverage
 Overall, my core strengths include backend development, API design, SQL optimization, and building data-driven applications. I’m particularly interested in scalable system design and solving real-world business problems using technology.
