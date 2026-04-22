@@ -1,0 +1,975 @@
+1. 🔷 What is a Generator in Python?
+
+👉 A generator is a function that returns values one at a time using yield, 
+instead of returning all values at once.
+
+✅ Normal Function vs Generator
+🔸 Normal Function
+
+def numbers():
+    return [1, 2, 3]
+
+print(numbers())
+
+[1, 2, 3]
+
+
+🔸 Generator Function
+def numbers():
+    yield 1
+    yield 2
+    yield 3
+
+gen = numbers()
+
+print(gen)        # generator object
+print(next(gen))  # 1
+print(next(gen))  # 2
+print(next(gen))  # 3
+
+
+| Feature   | Normal Function | Generator         |
+| --------- | --------------- | ----------------- |
+| Keyword   | `return`        | `yield`           |
+| Memory    | High            | Low               |
+| Execution | All at once     | One by one        |
+| Use case  | Small data      | Large/stream data |
+
+
+
+A generator in Python is a special type of iterator that yields values lazily using the yield keyword, allowing efficient memory usage and handling of large datasets.
+
+
+2. 🔷 What is a Decorator in Python?
+
+👉 A decorator is a function that modifies or extends the behavior of another function without changing its actual code.
+
+
+
+3. Defaultdict & ordereddict 
+
+🔷 1. defaultdict in Python
+🧠 Definition
+
+👉 defaultdict is a dictionary that provides a default value for a missing key instead of throwing an error.
+
+✅ Using defaultdict
+from collections import defaultdict
+
+d = defaultdict(int)   # default value = 0
+
+d["a"] += 1
+d["a"] += 1
+
+print(d)   # {'a': 2}
+
+✔ No error
+✔ Automatically initializes missing key
+
+
+🔷 2. OrderedDict in Python
+🧠 Definition
+
+👉 OrderedDict is a dictionary that maintains the insertion order of keys.
+
+from collections import OrderedDict
+
+
+
+from collections import OrderedDict
+
+d = OrderedDict()
+
+d["a"] = 1
+d["b"] = 2
+d["c"] = 3
+
+print(d)
+
+OrderedDict([('a', 1), ('b', 2), ('c', 3)])
+
+| Feature        | `defaultdict`                   | `OrderedDict`         |
+| -------------- | ------------------------------- | --------------------- |
+| Purpose        | Default values for missing keys | Maintain order        |
+| Error handling | Avoids KeyError                 | No impact             |
+| Use case       | Counting, grouping              | Caching, ordered data |
+
+
+defaultdict automatically initializes missing keys with a default value,
+while OrderedDict maintains insertion order and provides additional ordering operations like moving elements.
+
+
+4. defaultdict automatically initializes missing keys with a default value, while OrderedDict maintains insertion order and provides additional ordering operations like moving elements.
+
+🧠 Definitions
+🔹 __new__ method
+
+👉 __new__ is responsible for creating (allocating) a new object.
+
+It is called first
+It returns the instance (object)
+It is a static method internally
+
+def __new__(cls, *args, **kwargs):
+    # create and return object
+
+🔹 __init__ method
+
+👉 __init__ initializes the object after it is created.
+
+It is called after __new__
+It does not return anything
+It sets values/attributes
+
+def __init__(self, *args, **kwargs):
+    # initialize object
+
+
+5. Copy, deep copy, and shallow copy of objects in Python
+
+🧠 1. Basic Copy (Assignment)
+👉 Definition
+
+👉 This is not a real copy, it just creates a reference to the same object.
+
+a = [1, 2, 3]
+b = a
+
+b.append(4)
+
+print(a)  # [1, 2, 3, 4]
+print(b)  # [1, 2, 3, 4]
+
+
+🔷 2. Shallow Copy
+👉 Definition
+
+👉 Shallow copy creates a new object, but nested objects are still shared (referenced).
+
+import copy
+
+a = [[1, 2], [3, 4]]
+b = copy.copy(a)
+
+b[0].append(99)
+
+print(a)  # [[1, 2, 99], [3, 4]]
+print(b)  # [[1, 2, 99], [3, 4]]
+
+
+🔷 3. Deep Copy
+👉 Definition
+
+👉 Deep copy creates a completely independent copy (including nested objects).
+
+import copy
+
+a = [[1, 2], [3, 4]]
+b = copy.deepcopy(a)
+
+b[0].append(99)
+
+print(a)  # [[1, 2], [3, 4]]
+print(b)  # [[1, 2, 99], [3, 4]]
+
+✔ Everything is copied
+✔ No shared references
+
+Shallow copy creates a new object but shares references of nested objects, 
+whereas deep copy creates a completely independent copy of the object and all its nested elements.
+
+
+6. How to write a custom context manager, give a use case 
+
+🔷 What is a Context Manager in Python?
+🧠 Definition
+
+👉 A context manager is a construct that allows you to allocate and release resources properly using the with statement.
+
+✔ It ensures:
+
+Setup is done before execution
+Cleanup is done after execution (even if errors occur)
+
+
+7. Monkey Patching in Python
+
+✅ Definition
+
+Monkey patching means modifying or extending code at runtime (dynamically) without changing the original source code.
+
+You can:
+
+Replace methods
+Add new methods/attributes
+Modify behavior of libraries/classes
+
+
+🧠 Why used (Real-time use cases)
+Fix a bug in a third-party library temporarily
+Override behavior for testing (mocking)
+Add logging/debugging dynamically
+Customize framework behavior (Django, Flask, etc.)
+
+
+class Employee:
+    def get_salary(self):
+        return 50000
+
+# Original behavior
+emp = Employee()
+print(emp.get_salary())   # 50000
+
+# Monkey patching
+def new_salary(self):
+    return 70000
+
+Employee.get_salary = new_salary
+
+# After patch
+print(emp.get_salary())   # 70000
+
+
+8. Implement Queue, Stack & Linked List in Python
+🔹 A. Stack (LIFO – Last In First Out)
+✅ Definition
+
+Last inserted element is removed first.
+
+🧪 Real-time example
+Undo/Redo operations
+Browser back button
+
+
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, item):
+        self.stack.append(item)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.stack.pop()
+        return "Stack is empty"
+
+    def peek(self):
+        return self.stack[-1] if self.stack else None
+
+    def is_empty(self):
+        return len(self.stack) == 0
+
+# Usage
+s = Stack()
+s.push(10)
+s.push(20)
+print(s.pop())   # 20
+
+
+B. Queue (FIFO – First In First Out)
+✅ Definition
+
+First inserted element is removed first.
+
+🧪 Real-time example
+Ticket booking system
+Task scheduling
+
+
+from collections import deque
+
+class Queue:
+    def __init__(self):
+        self.queue = deque()
+
+    def enqueue(self, item):
+        self.queue.append(item)
+
+    def dequeue(self):
+        if self.queue:
+            return self.queue.popleft()
+        return "Queue is empty"
+
+    def peek(self):
+        return self.queue[0] if self.queue else None
+
+# Usage
+q = Queue()
+q.enqueue(1)
+q.enqueue(2)
+print(q.dequeue())   # 1
+
+
+C. Linked List
+✅ Definition
+
+A linear data structure where each element (node) contains:
+
+data
+reference (pointer) to next node
+🧪 Real-time example
+Memory-efficient data storage
+Implementing stacks/queues internally
+Navigation systems
+
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            return
+        
+        temp = self.head
+        while temp.next:
+            temp = temp.next
+        temp.next = new_node
+
+    def display(self):
+        temp = self.head
+        while temp:
+            print(temp.data, end=" -> ")
+            temp = temp.next
+        print("None")
+
+# Usage
+ll = LinkedList()
+ll.insert(10)
+ll.insert(20)
+ll.insert(30)
+ll.display()   # 10 -> 20 -> 30 -> None
+
+
+9. Packing & Unpacking Arguments in Python
+
+A. Packing
+✅ Definition
+
+Packing means collecting multiple values into a single variable using * or **.
+
+def func(*args):
+    print(args)
+
+func(1, 2, 3)
+# Output: (1, 2, 3)
+
+
+B. Unpacking
+✅ Definition
+
+Unpacking means extracting values from a collection into variables.
+
+nums = [1, 2, 3]
+a, b, c = nums
+
+print(a, b, c)   # 1 2 3
+
+
+
+10. What are Profilers in Python?
+✅ Definition
+
+A profiler is a tool used to measure performance of a program, such as:
+
+Execution time of functions
+Number of function calls
+Memory usage
+
+👉 Helps identify bottlenecks (slow parts) in your code.
+
+🔧 Types of Profilers
+CPU Profilers → time taken (e.g., cProfile)
+Memory Profilers → memory usage (e.g., memory_profiler)
+
+
+import cProfile
+
+def slow_function():
+    total = 0
+    for i in range(10000):
+        for j in range(10000):
+            total += i * j
+    return total
+
+cProfile.run("slow_function()")
+
+
+11. Singleton Class (Restrict Object Creation)
+✅ Definition
+
+A Singleton ensures that:
+
+Only one instance of a class is created throughout the program.
+
+🧠 Real-time Use Case
+Database connection
+Logging system
+Configuration manager
+
+
+class Singleton:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            print("Creating new instance")
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+# Usage
+obj1 = Singleton()
+obj2 = Singleton()
+
+print(obj1 is obj2)   # True
+
+
+12. What are Iterators in Python?
+✅ Definition
+
+An iterator is an object that:
+
+Implements __iter__() and __next__()
+Allows sequential access to elements
+
+🧠 Real-time Use Case
+Reading large files line by line
+Streaming data processing
+Generators
+
+nums = [1, 2, 3]
+
+it = iter(nums)
+
+print(next(it))  # 1
+print(next(it))  # 2
+print(next(it))  # 3
+
+
+class Counter:
+    def __init__(self, max):
+        self.max = max
+        self.current = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.current < self.max:
+            self.current += 1
+            return self.current
+        else:
+            raise StopIteration
+
+# Usage
+c = Counter(3)
+for num in c:
+    print(num)
+
+
+
+
+13. Private Variables in Python
+✅ Definition
+
+Python doesn’t have true private variables, but uses:
+
+Name mangling with __variable
+
+
+
+class Employee:
+    def __init__(self):
+        self.__salary = 50000   # private variable
+
+    def get_salary(self):
+        return self.__salary
+
+emp = Employee()
+
+# Access via method
+print(emp.get_salary())   # 50000
+
+# Direct access (will fail)
+# print(emp.__salary)
+
+# Access using name mangling (not recommended)
+print(emp._Employee__salary)  # 50000
+
+
+
+14. How __name__ == "__main__" Works
+✅ Definition
+
+Every Python file has a built-in variable __name__.
+
+When file runs directly → __name__ = "__main__"
+When imported → __name__ = module_name
+🧠 Real-time Use Case
+Prevent execution of test/debug code when imported
+Used in scripts and modules
+
+
+def greet():
+    print("Hello from file1")
+
+if __name__ == "__main__":
+    print("Running directly")
+    greet()
+
+
+
+
+15. Generator Expression vs List Comprehension
+✅ Definition
+🔹 List Comprehension
+Creates entire list in memory
+Uses []
+
+squares = [x*x for x in range(5)]
+print(squares)  # [0, 1, 4, 9, 16]
+
+
+Generator Expression
+Creates values lazily (on demand)
+Uses ()
+
+
+squares = (x*x for x in range(5))
+print(squares)  # <generator object>
+
+for i in squares:
+    print(i)
+
+
+| Feature   | List Comprehension  | Generator Expression |
+| --------- | ------------------- | -------------------- |
+| Memory    | High                | Low                  |
+| Execution | Immediate           | Lazy                 |
+| Speed     | Faster (small data) | Better (large data)  |
+
+
+
+
+16. Lazy Functions for Reading Large Files
+✅ Definition
+
+Lazy functions process data chunk by chunk instead of loading everything into memory.
+
+🧠 Real-time Use Case
+Log processing (GB files)
+ETL pipelines
+Data engineering
+
+def read_large_file(file_path):
+    with open(file_path, 'r') as f:
+        for line in f:
+            yield line.strip()   # lazy yield
+
+# Usage
+for line in read_large_file("bigfile.txt"):
+    print(line)
+
+
+17. Multiple Inheritance & MRO (Method Resolution Order)
+✅ Does Python support multiple inheritance?
+
+👉 YES
+
+🧠 Definition (MRO)
+
+MRO defines:
+
+The order in which Python searches methods in inheritance hierarchy
+
+Python uses C3 Linearization algorithm
+
+
+class A:
+    def show(self):
+        print("A")
+
+class B(A):
+    def show(self):
+        print("B")
+
+class C(A):
+    def show(self):
+        print("C")
+
+class D(B, C):
+    pass
+
+d = D()
+d.show()
+
+
+
+18. Polymorphism – Function Overloading
+❗ Important
+
+Python does NOT support traditional function overloading like Java.
+
+✅ How Python achieves it
+Default arguments
+*args, **kwargs
+
+
+def add(a, b, c=0):
+    return a + b + c
+
+print(add(2, 3))      # 5
+print(add(2, 3, 4))   # 9
+
+
+
+def add(*args):
+    return sum(args)
+
+print(add(1, 2))        # 3
+print(add(1, 2, 3, 4))  # 10
+
+19. Python is Call by Reference? (Important Trick Question)
+❗ Correct Answer
+
+Python uses:
+
+Call by Object Reference (Pass by Assignment)
+
+🧠 Behavior
+🔹 Mutable → changes reflect
+🔹 Immutable → changes don’t reflect
+
+
+def modify(lst):
+    lst.append(100)
+
+nums = [1, 2, 3]
+modify(nums)
+
+print(nums)   # [1, 2, 3, 100]
+
+
+def modify(x):
+    x = x + 10
+
+a = 5
+modify(a)
+
+print(a)   # 5
+
+
+
+19. Context Managers in Python
+✅ Definition
+
+Context managers are used to:
+
+Manage resources automatically (open/close)
+
+🧠 Real-time Use Case
+File handling
+Database connections
+Locks in multithreading
+
+
+with open("file.txt", "r") as f:
+    data = f.read()
+
+# file automatically closed
+
+
+
+class FileManager:
+    def __enter__(self):
+        print("Opening file")
+        self.file = open("test.txt", "w")
+        return self.file
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print("Closing file")
+        self.file.close()
+
+# Usage
+with FileManager() as f:
+    f.write("Hello")
+
+
+20. .pyc Files & Bytecode in Python
+✅ Definition
+.pyc files are compiled Python bytecode files
+Stored in __pycache__/
+Generated automatically when Python runs a .py file
+🧠 Why needed?
+Improves performance (no need to recompile every time)
+Speeds up module imports
+
+
+
+
+21. Static Method vs Class Method
+🔹 Static Method
+✅ Definition
+Doesn’t use instance (self) or class (cls)
+Works like a normal function inside class
+
+
+class MathUtils:
+    @staticmethod
+    def add(a, b):
+        return a + b
+
+print(MathUtils.add(2, 3))  # 5
+
+
+Class Method
+✅ Definition
+Takes cls as first argument
+Can modify class state
+
+
+class Employee:
+    count = 0
+
+    @classmethod
+    def increment(cls):
+        cls.count += 1
+
+Employee.increment()
+print(Employee.count)  # 1
+
+
+| Feature           | Static  | Class          |
+| ----------------- | ------- | -------------- |
+| First param       | None    | cls            |
+| Access class data | ❌       | ✅              |
+| Use case          | Utility | Factory/config |
+
+
+
+22. list.sort() vs sorted()
+
+| Feature           | list.sort() | sorted()     |
+| ----------------- | ----------- | ------------ |
+| Modifies original | ✅           | ❌            |
+| Returns value     | None        | New list     |
+| Works on          | Lists only  | Any iterable |
+
+
+
+nums = [3, 1, 2]
+
+nums.sort()
+print(nums)  # [1, 2, 3]
+
+nums2 = [3, 1, 2]
+new_list = sorted(nums2)
+
+print(nums2)    # [3, 1, 2]
+print(new_list) # [1, 2, 3]
+
+
+🧠 Real-time Use
+sort() → when modifying original list
+sorted() → when immutability needed
+
+
+23. Data Classes
+✅ Definition
+
+Introduced in Python 3.7 to:
+
+Automatically generate __init__, __repr__, __eq__
+
+
+from dataclasses import dataclass
+
+@dataclass
+class Employee:
+    name: str
+    age: int
+
+emp = Employee("Abhi", 25)
+print(emp)
+
+
+24. Difference Between is and ==
+✅ Definition
+Operator	Meaning
+==	Value comparison
+is	Memory reference
+
+
+
+a = [1, 2]
+b = [1, 2]
+
+print(a == b)  # True
+print(a is b)  # False
+
+
+x = [1, 2]
+y = x
+
+print(x is y)  # True
+
+
+
+25. Why finally is needed?
+✅ Definition
+
+finally block:
+
+Always executes (whether exception occurs or not)
+
+🧠 Real-time Use Case
+Close DB connections
+Release file handles
+Cleanup resources
+
+
+
+try:
+    x = 10 / 0
+except ZeroDivisionError:
+    print("Error")
+finally:
+    print("Cleanup always runs")
+
+
+
+26. Instance vs Class vs Static Method (Usage)
+
+class Demo:
+
+    def instance_method(self):
+        print("Instance method")
+
+    @classmethod
+    def class_method(cls):
+        print("Class method")
+
+    @staticmethod
+    def static_method():
+        print("Static method")
+
+d = Demo()
+d.instance_method()
+Demo.class_method()
+Demo.static_method()
+
+
+| Method   | Use               |
+| -------- | ----------------- |
+| Instance | Object data       |
+| Class    | Class-level logic |
+| Static   | Utility function  |
+
+
+27. String Slicing Example (“hello world” → “row”)
+💻 Solution (Single slicing)
+
+s = "hello world"
+
+result = s[-3:][::-1]
+print(result)   # row
+
+
+
+28. Memory Management in Python
+✅ Key Concepts
+Automatic memory management
+Uses:
+Reference Counting
+Garbage Collector (GC)
+
+🧠 Real-time
+Deletes unused objects
+Prevents memory leaks
+
+
+import sys
+
+a = []
+print(sys.getrefcount(a))
+
+b = a
+print(sys.getrefcount(a))
+
+
+
+29. Global vs Nonlocal
+
+x = 10
+
+def func():
+    global x
+    x = 20
+
+func()
+print(x)  # 20
+
+
+
+
+def outer():
+    x = 10
+
+    def inner():
+        nonlocal x
+        x = 20
+
+    inner()
+    print(x)
+
+outer()  # 20
+
+
+
+
+30. What is Enum?
+✅ Definition
+
+Enum is used to define:
+
+Fixed set of constant values
+
+🧠 Real-time Use
+Status codes
+Roles
+Config values
+
+
+
+from enum import Enum
+
+class Status(Enum):
+    SUCCESS = 1
+    FAILURE = 0
+
+print(Status.SUCCESS)
+print(Status.SUCCESS.name)
+print(Status.SUCCESS.value)
+
+
+
+
+
+
+
+
+
+
+
+def of each question with detailed explanation 
+and also real time example and sample code
+

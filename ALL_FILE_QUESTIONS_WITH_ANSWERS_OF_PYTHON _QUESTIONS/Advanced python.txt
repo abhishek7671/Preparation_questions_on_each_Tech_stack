@@ -1,0 +1,1332 @@
+1. Metaclass in Python
+✅ Definition
+
+A metaclass is:
+
+A class that defines how other classes are created.
+
+👉 In short:
+
+Object → created by Class  
+Class → created by Metaclass
+
+Default metaclass = type
+
+🧠 Real-time Use Cases
+Enforcing coding standards
+Auto-registering classes (Django ORM, serializers)
+Validation frameworks
+Singleton enforcement
+
+
+Metaclass in Python
+✅ Definition
+
+A metaclass is:
+
+A class that defines how other classes are created.
+
+👉 In short:
+
+Object → created by Class  
+Class → created by Metaclass
+
+Default metaclass = type
+
+🧠 Real-time Use Cases
+Enforcing coding standards
+Auto-registering classes (Django ORM, serializers)
+Validation frameworks
+Singleton enforcement
+
+
+
+
+class UpperAttrMeta(type):
+    def __new__(cls, name, bases, dct):
+        new_dct = {}
+        for key, value in dct.items():
+            if not key.startswith("__"):
+                new_dct[key.upper()] = value
+            else:
+                new_dct[key] = value
+        return super().__new__(cls, name, bases, new_dct)
+
+
+class Demo(metaclass=UpperAttrMeta):
+    name = "Abhi"
+
+print(hasattr(Demo, "NAME"))  # True
+
+
+
+
+2. Static Typing in Python
+✅ Definition
+
+Python is dynamically typed, but supports optional static typing using type hints.
+
+🧠 Why use it?
+Better readability
+Helps IDEs & linters
+Prevents bugs
+
+
+def add(a: int, b: int) -> int:
+    return a + b
+
+print(add(2, 3))
+
+
+
+3. Data Classes (with Validation)
+✅ Definition
+
+@dataclass automatically generates:
+
+__init__
+__repr__
+__eq__
+
+
+from dataclasses import dataclass
+
+@dataclass
+class User:
+    name: str
+    age: int
+
+u = User("Abhi", 25)
+print(u)
+
+
+
+from dataclasses import dataclass
+
+@dataclass
+class User:
+    name: str
+    age: int
+
+    def __post_init__(self):
+        if self.age < 0:
+            raise ValueError("Age cannot be negative")
+
+u = User("Abhi", 25)
+
+
+
+
+4. Walrus Operator (:=)
+✅ Definition
+
+Allows assignment inside expressions.
+
+🧠 Why useful?
+Avoid repeated computation
+Cleaner code
+
+
+if (n := len("hello")) > 3:
+    print(n)
+
+
+
+
+data = input("Enter: ")
+
+while (line := input()) != "exit":
+    print("You typed:", line)
+
+
+
+
+5. Else Clause in try/except & for loop
+🔹 A. try-except-else
+✅ Definition
+
+else runs only if:
+
+No exception occurs
+
+
+try:
+    x = 10 / 2
+except ZeroDivisionError:
+    print("Error")
+else:
+    print("Success:", x)
+
+
+
+B. for-else
+✅ Definition
+
+else runs only if:
+
+Loop completes without break
+
+
+nums = [1, 2, 3]
+
+for n in nums:
+    if n == 5:
+        print("Found")
+        break
+else:
+    print("Not found")
+
+
+
+6. Descriptors in Python
+✅ Definition
+
+A descriptor is any object that implements:
+
+__get__()
+__set__()
+__delete__()
+
+👉 Used to control attribute access
+
+🧠 Real-time Use Cases
+ORM fields (Django models)
+Validation (age, email, etc.)
+Lazy loading properties
+
+
+class Descriptor:
+    def __get__(self, obj, objtype):
+        return obj._value
+
+    def __set__(self, obj, value):
+        if value < 0:
+            raise ValueError("Must be positive")
+        obj._value = value
+
+
+class Person:
+    age = Descriptor()
+
+p = Person()
+p.age = 25
+print(p.age)   # 25
+
+# p.age = -5 → raises error
+
+
+
+
+7. Abstract Base Class (ABC)
+✅ Definition
+
+ABC is used to:
+
+Define a blueprint for classes
+
+🧠 Real-time Use
+Enforcing method implementation
+Designing clean architecture
+
+
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+
+    @abstractmethod
+    def area(self):
+        pass
+
+
+class Circle(Shape):
+    def area(self):
+        return 3.14 * 5 * 5
+
+c = Circle()
+print(c.area())
+
+
+8. Design Patterns (General Answer)
+✅ What to say in interview
+
+👉 Yes, commonly used patterns:
+
+Singleton → DB connection
+Factory → object creation
+Adapter → integration between APIs
+Strategy → dynamic behavior
+🧠 Real-time Example
+Django ORM → Factory + Singleton internally
+Payment gateway → Adapter pattern
+
+
+
+9. Factory Design Pattern
+✅ Definition
+
+Factory pattern:
+
+Creates objects without exposing creation logic
+
+🧠 Real-time Use
+Creating DB connections
+Payment method selection
+Notification services
+
+
+class Dog:
+    def speak(self):
+        return "Woof"
+
+class Cat:
+    def speak(self):
+        return "Meow"
+
+
+class AnimalFactory:
+    @staticmethod
+    def get_animal(type):
+        if type == "dog":
+            return Dog()
+        elif type == "cat":
+            return Cat()
+
+animal = AnimalFactory.get_animal("dog")
+print(animal.speak())  # Woof
+
+
+
+10. Adapter Design Pattern
+✅ Definition
+
+Adapter pattern:
+
+Converts one interface into another
+
+🧠 Real-time Use
+Integrating third-party APIs
+Payment gateway wrappers
+
+
+class OldAPI:
+    def old_request(self):
+        return "Old API response"
+
+
+class Adapter:
+    def __init__(self, old_api):
+        self.old_api = old_api
+
+    def new_request(self):
+        return self.old_api.old_request()
+
+
+old = OldAPI()
+adapter = Adapter(old)
+
+print(adapter.new_request())
+
+
+
+11. Singleton Design Pattern
+✅ Definition
+
+Ensures:
+
+Only one instance exists
+
+🧠 Real-time Use
+Logging
+DB connections
+Config manager
+
+
+
+class Singleton:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+
+a = Singleton()
+b = Singleton()
+
+print(a is b)   # True
+
+
+
+12. Python Garbage Collection
+✅ How it works
+🔹 1. Reference Counting
+Each object tracks references
+When count = 0 → deleted
+
+
+import sys
+
+a = []
+print(sys.getrefcount(a))
+
+b = a
+print(sys.getrefcount(a))
+
+
+
+2. Generational Garbage Collector
+
+Handles circular references
+
+
+import gc
+
+gc.collect()
+
+
+13. How list.sort() Works (TimSort)
+✅ Algorithm Used
+
+👉 TimSort
+
+Hybrid of:
+Merge Sort
+Insertion Sort
+🧠 Why TimSort?
+Optimized for real-world data
+Works well on partially sorted data
+
+
+
+14. MRO (Method Resolution Order)
+✅ Definition
+
+MRO defines:
+
+The order in which Python looks for methods in inheritance hierarchy.
+
+Python uses C3 Linearization algorithm.
+
+
+
+class A:
+    def show(self):
+        print("A")
+
+class B(A):
+    def show(self):
+        print("B")
+
+class C(A):
+    def show(self):
+        print("C")
+
+class D(B, C):
+    pass
+
+d = D()
+d.show()
+
+
+
+
+15. Restrict Class Variable Creation
+✅ Problem
+
+Prevent adding new attributes dynamically.
+
+
+class Person:
+    __slots__ = ['name', 'age']
+
+p = Person()
+p.name = "Abhi"
+p.age = 25
+
+# p.salary = 50000 → ERROR
+
+
+
+class Restricted:
+    allowed = {'name', 'age'}
+
+    def __setattr__(self, key, value):
+        if key not in self.allowed:
+            raise AttributeError("Not allowed")
+        super().__setattr__(key, value)
+
+r = Restricted()
+r.name = "Abhi"
+
+# r.salary = 1000 → ERROR
+
+
+
+
+16. Destructors (__del__)
+✅ Definition
+
+Destructor is called when:
+
+Object is about to be destroyed
+
+
+
+class Demo:
+    def __init__(self):
+        print("Object created")
+
+    def __del__(self):
+        print("Object destroyed")
+
+d = Demo()
+del d
+
+
+
+
+17. Use of nonlocal
+✅ Definition
+
+Used to:
+
+Modify variables in enclosing (outer) scope
+
+
+
+
+def outer():
+    x = 10
+
+    def inner():
+        nonlocal x
+        x = 20
+
+    inner()
+    print(x)
+
+outer()   # 20
+
+
+
+18. Packaging Code & Package Managers
+✅ Packaging Code
+
+Structure:
+
+myproject/
+    setup.py
+    mypackage/
+        __init__.py
+        module.py
+
+
+Package Managers
+🔹 pip
+pip install requests
+🔹 pipenv
+Virtual environment + dependency management
+🔹 poetry
+Modern tool (dependency + packaging)
+
+
+
+19. Compilation & Linking in Python
+✅ Process
+.py → bytecode (.pyc) → Python Virtual Machine (PVM) → execution
+🔍 Steps
+Source code compiled to bytecode
+Bytecode stored in __pycache__
+Executed by PVM
+
+
+20. Wheels vs Eggs
+
+| Feature | Wheel (.whl) | Egg (.egg)   |
+| ------- | ------------ | ------------ |
+| Format  | Modern       | Older        |
+| Install | Faster       | Slower       |
+| Popular | ✅ Yes        | ❌ Deprecated |
+
+
+
+
+21. How to Speed Up Python Code
+✅ Techniques
+🔹 1. Use Built-in Functions
+
+# Slow
+result = []
+for i in range(10):
+    result.append(i*i)
+
+# Fast
+result = [i*i for i in range(10)]
+
+
+2. Use Generators
+sum(x*x for x in range(1000000))
+
+3. Use Libraries (NumPy, Pandas)
+import numpy as np
+
+arr = np.array([1,2,3])
+print(arr * 2)
+
+
+4. Use Caching
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def fib(n):
+    if n < 2:
+        return n
+    return fib(n-1) + fib(n-2)
+
+5. Multiprocessing
+from multiprocessing import Pool
+
+6. Profiling First!
+import cProfile
+
+
+
+22. Access Python from C & C from Python
+✅ A. Calling Python from C
+
+👉 Use Python/C API
+
+B. Calling C from Python
+
+👉 Use:
+
+ctypes
+cffi
+CPython extensions
+
+
+
+23. f-strings vs .format() vs %
+✅ Definition
+f-strings → modern (Python 3.6+)
+.format() → flexible
+% → old style
+
+name = "Abhi"
+age = 25
+
+# f-string
+print(f"My name is {name}, age {age}")
+
+# format
+print("My name is {}, age {}".format(name, age))
+
+# %
+print("My name is %s, age %d" % (name, age))
+
+
+
+⚡ Performance
+
+👉 f-strings are fastest
+
+🎯 Why f-strings?
+Faster
+More readable
+Evaluated at runtime efficiently
+
+
+24. Hashable Objects
+✅ Definition
+
+An object is hashable if:
+
+Has a fixed hash value
+Is immutable
+🧠 Used in:
+Dictionary keys
+Set elements
+
+
+
+print(hash("hello"))   # valid
+print(hash((1, 2)))    # valid
+
+# print(hash([1,2])) → ERROR (mutable)
+
+
+| Hashable | Not Hashable |
+| -------- | ------------ |
+| int      | list         |
+| str      | dict         |
+| tuple    | set          |
+
+
+
+25. Why GIL (Global Interpreter Lock)?
+✅ Definition
+
+GIL ensures:
+
+Only one thread executes Python bytecode at a time
+
+🧠 Why needed?
+Memory management safety
+Simpler interpreter design
+❗ Problem
+Limits true parallelism in CPU-bound tasks
+🎯 Key Points
+Thread-safe memory handling
+Bottleneck for CPU-heavy work
+
+
+26. Multithreading vs Multiprocessing
+
+| Feature | Multithreading | Multiprocessing |
+| ------- | -------------- | --------------- |
+| Memory  | Shared         | Separate        |
+| GIL     | Affected       | Not affected    |
+| Speed   | Good for I/O   | Good for CPU    |
+
+
+
+import threading
+
+def task():
+    print("Running thread")
+
+t1 = threading.Thread(target=task)
+t1.start()
+
+
+from multiprocessing import Process
+
+def task():
+    print("Running process")
+
+p = Process(target=task)
+p.start()
+
+
+27. Multithreading vs Asyncio
+
+| Feature   | Multithreading | Asyncio     |
+| --------- | -------------- | ----------- |
+| Execution | Preemptive     | Cooperative |
+| Switching | OS controlled  | Event loop  |
+| Overhead  | High           | Low         |
+
+
+import asyncio
+
+async def task():
+    print("Hello")
+    await asyncio.sleep(1)
+    print("World")
+
+asyncio.run(task())
+
+
+
+
+28. Context Switching (Thread vs Asyncio)
+
+🔹 Multithreading
+Controlled by OS
+Preemptive switching
+Expensive
+
+🔹 Asyncio
+Controlled by event loop
+Happens at await
+Lightweight
+
+🎯 Key Insight
+
+👉 Asyncio is faster for large I/O tasks because:
+
+No OS context switching
+Less overhead
+
+
+
+29. Difference Between Thread & Process
+
+| Feature       | Thread   | Process      |
+| ------------- | -------- | ------------ |
+| Memory        | Shared   | Separate     |
+| Creation      | Fast     | Slow         |
+| Communication | Easy     | Complex      |
+| GIL           | Affected | Not affected |
+
+
+
+
+from threading import Thread
+from multiprocessing import Process
+
+def task():
+    print("Running")
+
+# Thread
+t = Thread(target=task)
+t.start()
+
+# Process
+p = Process(target=task)
+p.start()
+
+
+
+30. What is Thread Safety?
+✅ Definition
+
+Thread safety ensures:
+
+Multiple threads can access shared data without corruption
+
+
+
+import threading
+
+counter = 0
+
+def increment():
+    global counter
+    for _ in range(100000):
+        counter += 1
+
+threads = [threading.Thread(target=increment) for _ in range(2)]
+
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+
+print(counter)  # unpredictable
+
+
+
+lock = threading.Lock()
+
+def increment():
+    global counter
+    for _ in range(100000):
+        with lock:
+            counter += 1
+
+
+31. Use of __slots__
+✅ Definition
+
+Restricts:
+
+Dynamic attribute creation + reduces memory usage
+
+
+
+class Person:
+    __slots__ = ['name', 'age']
+
+p = Person()
+p.name = "Abhi"
+
+# p.salary = 1000 → ERROR
+
+
+32. Use of __call__
+✅ Definition
+
+Makes object behave like a function
+
+
+
+
+class Adder:
+    def __init__(self, x):
+        self.x = x
+
+    def __call__(self, y):
+        return self.x + y
+
+add = Adder(10)
+print(add(5))   # 15
+
+
+33. Python Arrays vs Lists
+
+
+| Feature | Array     | List   |
+| ------- | --------- | ------ |
+| Type    | Same type | Mixed  |
+| Speed   | Faster    | Slower |
+| Memory  | Efficient | More   |
+
+
+import array
+
+arr = array.array('i', [1, 2, 3])
+print(arr)
+
+
+34. How Dictionary Works Internally
+✅ Definition
+
+Python dict uses:
+
+Hash table
+
+🔍 Process
+Compute hash of key
+Map to index
+Handle collisions
+
+
+d = {"a": 1, "b": 2}
+print(d["a"])
+
+
+
+35. del Keyword
+✅ Definition
+
+Deletes:
+
+Variables
+List elements
+Object references
+
+
+
+x = [1, 2, 3]
+del x[1]
+print(x)   # [1, 3]
+
+del x
+# print(x) → ERROR
+
+
+36. Garbage Collection
+✅ Mechanism
+🔹 Reference Counting
+
+import sys
+
+a = []
+print(sys.getrefcount(a))
+
+
+Cyclic GC
+import gc
+gc.collect()
+
+
+37. Type Hints
+✅ Definition
+
+Provide type information (optional)
+
+
+
+from typing import Union, Optional
+
+def greet(name: str) -> str:
+    return "Hello " + name
+
+def func(x: Optional[int]) -> Union[int, str]:
+    if x:
+        return x
+    return "No value"
+
+
+
+
+
+38. Parameterized Decorators
+✅ Definition
+
+Decorator with arguments
+
+def repeat(n):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for _ in range(n):
+                func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+@repeat(3)
+def greet():
+    print("Hello")
+
+greet()
+
+
+39. Abstract Classes & Subclassing
+
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+
+    @abstractmethod
+    def sound(self):
+        pass
+
+
+class Dog(Animal):
+    def sound(self):
+        return "Woof"
+
+d = Dog()
+print(d.sound())
+
+
+40. Mixin Classes
+✅ Definition
+
+A Mixin is a class used to:
+
+Add specific functionality to other classes through inheritance (without being a standalone class).
+
+👉 It is NOT meant to be instantiated directly.
+
+🧠 Real-time Use Cases
+Django → LoginRequiredMixin
+Adding reusable features (logging, serialization, validation)
+Avoid code duplication
+
+
+
+class LoggerMixin:
+    def log(self, message):
+        print(f"[LOG]: {message}")
+
+
+class Service(LoggerMixin):
+    def process(self):
+        self.log("Processing started")
+
+
+s = Service()
+s.process()
+
+
+41. Metaprogramming
+✅ Definition
+
+Metaprogramming means:
+
+Writing code that modifies or generates other code at runtime
+
+🧠 Real-time Use Cases
+ORMs (Django models auto fields)
+Decorators
+Dynamic API creation
+Serialization frameworks
+🔧 Techniques in Python
+Metaclasses
+Decorators
+setattr, getattr
+exec, eval
+
+
+
+class Dynamic:
+    pass
+
+def greet(self):
+    return "Hello!"
+
+# Add method dynamically
+setattr(Dynamic, "greet", greet)
+
+d = Dynamic()
+print(d.greet())   # Hello!
+
+
+
+42. Functional Programming in Python
+✅ Definition
+
+Functional programming focuses on:
+
+Writing code using pure functions and avoiding state/mutation
+
+🧠 Concepts
+Pure functions
+Immutability
+Higher-order functions
+First-class functions
+🔧 Built-in Tools
+map()
+filter()
+reduce()
+lambda
+
+🔹 map()
+nums = [1, 2, 3]
+
+result = list(map(lambda x: x * 2, nums))
+print(result)   # [2, 4, 6]
+
+
+
+🔹 filter()
+nums = [1, 2, 3, 4]
+
+even = list(filter(lambda x: x % 2 == 0, nums))
+print(even)   # [2, 4]
+
+
+🔹 reduce()
+from functools import reduce
+
+nums = [1, 2, 3, 4]
+
+result = reduce(lambda x, y: x + y, nums)
+print(result)   # 10
+
+
+
+43. Closure in Python
+✅ Definition
+
+A closure is:
+
+A function that remembers values from its enclosing scope even after the outer function has finished execution.
+
+🧠 Real-time Use Cases
+Decorators
+Function factories
+Data hiding
+
+
+def outer(x):
+    def inner(y):
+        return x + y
+    return inner
+
+add5 = outer(5)
+
+print(add5(3))   # 8
+
+
+
+
+def counter():
+    count = 0
+
+    def increment():
+        nonlocal count
+        count += 1
+        return count
+
+    return increment
+
+c = counter()
+print(c())  # 1
+print(c())  # 2
+
+
+
+
+44. Composition in Python
+✅ Definition
+
+Composition means:
+
+Building complex objects by combining other objects (HAS-A relationship)
+
+👉 Instead of inheritance (IS-A), we use HAS-A
+
+🧠 Real-time Use
+Car has Engine
+Order has Payment
+Service uses Repository (common in Django/FastAPI)
+
+
+
+class Engine:
+    def start(self):
+        return "Engine started"
+
+
+class Car:
+    def __init__(self):
+        self.engine = Engine()   # composition
+
+    def drive(self):
+        return self.engine.start()
+
+
+c = Car()
+print(c.drive())   # Engine started
+
+
+
+
+
+45. Property Getter & Setter
+✅ Definition
+
+@property allows:
+
+Access method like an attribute
+
+
+🧠 Real-time Use
+Validation (age, salary)
+Encapsulation
+Controlled access
+
+
+class Person:
+    def __init__(self):
+        self._age = 0
+
+    @property
+    def age(self):
+        return self._age
+
+    @age.setter
+    def age(self, value):
+        if value < 0:
+            raise ValueError("Invalid age")
+        self._age = value
+
+
+p = Person()
+p.age = 25
+print(p.age)
+
+# p.age = -1 → ERROR
+
+
+🎯 Key Points
+Clean API
+Adds validation logic
+Avoid direct variable access
+
+
+46. Dependency Injection (DI)
+✅ Definition
+
+Dependency Injection means:
+
+Providing dependencies from outside instead of creating inside class
+
+🧠 Why use it?
+Loose coupling
+Easy testing (mocking)
+Better maintainability
+
+
+
+class Database:
+    def connect(self):
+        return "Connected to DB"
+
+
+class Service:
+    def __init__(self, db):
+        self.db = db   # injected dependency
+
+    def process(self):
+        return self.db.connect()
+
+
+db = Database()
+service = Service(db)
+
+print(service.process())
+
+
+🧠 Real-time Use
+Django services
+FastAPI dependency injection
+Microservices architecture
+
+
+
+47. nonlocal in Python 3
+✅ Definition
+
+nonlocal is used to:
+
+Modify variables in enclosing scope (not global)
+
+
+def outer():
+    x = 10
+
+    def inner():
+        nonlocal x
+        x = 20
+
+    inner()
+    print(x)
+
+outer()   # 20
+
+
+🧠 Real-time Use
+Closures
+Decorators
+Maintaining state
+
+
+48. How to Identify Memory Leaks in Python
+✅ What is Memory Leak?
+
+Memory not released even when not needed
+
+🧠 Causes
+Circular references
+Global variables
+Large data not freed
+
+
+🔧 Tools for Detection
+💻 1. tracemalloc
+
+import tracemalloc
+
+tracemalloc.start()
+
+a = [i for i in range(100000)]
+
+print(tracemalloc.get_traced_memory())
+
+
+💻 2. gc module
+
+import gc
+
+print(gc.get_count())
+gc.collect()
+
+
+💻 3. memory_profiler
+
+pip install memory-profiler
+
+from memory_profiler import profile
+
+@profile
+def my_func():
+    a = [i for i in range(1000000)]
+    return a
+
+my_func()
+
+💻 4. objgraph (advanced)
+pip install objgraph
+
+
+
+🧠 Real-time Use
+Debugging production memory issues
+Optimizing long-running services
+
+
