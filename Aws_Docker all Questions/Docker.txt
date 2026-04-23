@@ -1,0 +1,545 @@
+
+What is Docker?
+What are Docker containers?
+What is the difference between Docker and Virtual Machines (VMs)?
+What is Docker Hub?
+Explain the architecture of Docker.
+What is a Docker image?
+What is the difference between docker run and docker start?
+What are the main components of a Docker container?
+What is the purpose of a Dockerfile?
+How do you list all Docker containers and images?
+What are Docker Volumes?
+How do you create a Docker container from an image?
+What is the purpose of the docker exec command?
+What is Docker Compose?
+What is the difference between docker pull and docker build?
+How can you restrict the amount of memory or CPU a Docker container can use?
+How do you inspect a Docker container?
+What are Docker Swarm and Kubernetes, and how do they relate to Docker?
+What are Docker tags, and why are they useful?
+What is the difference between docker run and docker create?
+What is the purpose of the docker build command?
+How do you scale applications using Docker Swarm?
+What is a multi-stage build in Docker?
+How do you handle environment variables in Docker?
+What is the purpose of Docker's --link flag?
+How do you push a Docker image to Docker Hub?
+How do you debug issues inside a Docker container?
+
+
+
+
+
+
+1. What is Docker?
+✅ Definition
+
+Docker is a containerization platform that allows you to package an application along with its dependencies into a standardized unit called a container, which can run anywhere.
+
+docker --version        # Check Docker installation
+docker info             # View Docker system info
+
+
+
+📦 2. What are Docker Containers?
+✅ Definition
+
+A Docker container is a lightweight, portable runtime environment that contains:
+
+Application code
+Libraries
+Dependencies
+
+👉 Containers run on top of the host OS (no full OS needed).
+
+
+docker run nginx              # Run a container
+docker ps                     # List running containers
+docker stop <container_id>    # Stop container
+docker rm <container_id>      # Remove container
+
+
+
+⚔️ 3. Docker vs Virtual Machines (VMs)
+✅ Key Differences
+
+| Feature      | Docker (Containers) | Virtual Machines |
+| ------------ | ------------------- | ---------------- |
+| OS           | Shares host OS      | Full OS per VM   |
+| Size         | Lightweight         | Heavy            |
+| Startup Time | Seconds             | Minutes          |
+| Performance  | Faster              | Slower           |
+| Resource Use | Low                 | High             |
+
+
+💡 Real-Time Example
+VM → Install Ubuntu OS → Install Python → Run app
+Docker → Just run container → app starts instantly
+
+
+
+🌐 4. What is Docker Hub?
+✅ Definition
+
+Docker Hub is a cloud-based registry where you can:
+
+Store Docker images
+Share images
+Download public images
+
+👉 Like GitHub, but for Docker images.
+
+
+docker pull nginx            # Download image
+docker push username/image   # Upload image
+docker search redis          # Search images
+
+
+
+
+🏗️ 5. Docker Architecture
+✅ Components
+Docker Client
+CLI (docker commands)
+Docker Daemon
+Runs containers & manages images
+Docker Images
+Blueprint/template
+Docker Containers
+Running instances of images
+Docker Registry (Docker Hub)
+Stores images
+
+
+
+🧱 6. What is a Docker Image?
+✅ Definition
+
+A Docker image is a read-only template used to create containers.
+
+👉 It contains:
+
+Application code
+Dependencies
+Environment setup
+💡 Real-Time Example
+
+Image = Blueprint
+Container = Running instance
+
+Like:
+
+Image → Class
+Container → Object
+
+
+docker images               # List images
+docker pull node            # Download image
+docker rmi <image_id>       # Remove image
+
+
+
+
+7. Difference: docker run vs docker start
+✅ docker run
+
+👉 Creates + starts a container
+
+docker run nginx
+
+
+✅ docker start
+
+👉 Starts an existing stopped container
+
+docker start <container_id>
+
+
+
+
+8. Main Components of a Docker Container
+✅ Definition
+
+A Docker container is built using several internal components:
+
+🔑 Core Components:
+Docker Image → Blueprint/template
+Application Code → Your app (Django, Node, etc.)
+Dependencies → Libraries, packages
+Runtime → Environment to execute code
+Filesystem → Layered storage system
+Network Interfaces → Communication
+Volumes (optional) → Persistent storage
+💡 Real-Time Example
+
+A Django app container includes:
+
+Python runtime
+Django code
+Requirements.txt dependencies
+SQLite/Postgres connection
+
+
+docker run -d -p 8000:8000 my-django-app
+
+
+
+
+9. What is the Purpose of a Dockerfile?
+✅ Definition
+
+A Dockerfile is a script with instructions to build a Docker image.
+
+👉 It automates environment setup.
+
+💡 Real-Time Example
+
+Instead of manually installing Python, pip, dependencies →
+You define everything once in a Dockerfile.
+
+
+FROM python:3.10
+WORKDIR /app
+COPY . .
+RUN pip install -r requirements.txt
+CMD ["python", "app.py"]
+
+
+
+docker build -t myapp .
+docker run myapp
+
+
+
+
+10. How to List All Docker Containers and Images?
+✅ List Containers
+docker ps        # Running containers
+docker ps -a     # All containers (including stopped)
+docker images
+
+
+
+
+11. What are Docker Volumes?
+✅ Definition
+
+Docker volumes are used for persistent data storage outside containers.
+
+👉 Containers are temporary, volumes store permanent data.
+
+💡 Real-Time Example
+
+MySQL container:
+
+Without volume → data lost after container removal
+With volume → data persists
+
+
+docker volume create myvolume
+docker run -d -v myvolume:/data mysql
+
+
+
+
+12. How to Create a Docker Container from an Image?
+✅ Definition
+
+Use docker run to create and start a container from an image.
+
+💡 Real-Time Example
+
+Run an Nginx web server:
+
+docker run -d -p 80:80 nginx
+
+
+docker run -it python:3.10 bash   # Interactive container
+docker run -d redis               # Background container
+
+
+
+
+13. What is the Purpose of docker exec?
+✅ Definition
+
+docker exec is used to run commands inside a running container.
+
+💡 Real-Time Example
+
+You want to:
+
+Access running container
+Debug issues
+Check logs or DB
+
+
+
+14. What is Docker Compose?
+✅ Definition
+
+Docker Compose is a tool to define and run multi-container applications using a YAML file.
+
+💡 Real-Time Example
+
+Your app needs:
+
+Django backend
+PostgreSQL DB
+Redis cache
+
+👉 Instead of running 3 commands → use one docker-compose.yml
+
+docker-compose up        # Start all services
+docker-compose down      # Stop all services
+
+
+
+
+15. Difference between docker pull and docker build
+✅ docker pull (Definition)
+
+Downloads an image from a remote registry like Docker Hub.
+
+✅ docker build (Definition)
+
+Creates a new Docker image from a Dockerfile.
+
+
+
+| Feature  | docker pull     | docker build        |
+| -------- | --------------- | ------------------- |
+| Source   | Docker Hub      | Local Dockerfile    |
+| Purpose  | Download image  | Create custom image |
+| Use Case | Ready-made apps | Custom apps         |
+
+
+
+docker pull nginx
+
+docker build -t myapp .
+
+
+
+
+16. Restrict Memory / CPU for a Container
+✅ Definition
+
+Docker allows limiting resources to prevent one container from consuming all system resources.
+
+💡 Real-Time Example
+
+You run multiple services (DB + API).
+👉 Prevent DB from using all RAM.
+
+
+
+17. How to Inspect a Docker Container?
+✅ Definition
+
+docker inspect provides detailed JSON information about a container or image.
+
+💡 Real-Time Example
+
+You want:
+
+IP address
+Mounted volumes
+Environment variables
+
+
+
+
+18. Docker Swarm vs Kubernetes
+✅ Docker Swarm
+Native clustering tool in Docker
+Simple setup
+Used for small-scale orchestration
+✅ Kubernetes
+Advanced container orchestration system
+Handles scaling, load balancing, auto-healing
+🔗 Relation to Docker
+
+Both are used to manage multiple Docker containers across servers.
+
+
+
+| Feature      | Docker Swarm | Kubernetes |
+| ------------ | ------------ | ---------- |
+| Complexity   | Easy         | Complex    |
+| Scaling      | Basic        | Advanced   |
+| Industry Use | Less         | Very High  |
+
+
+
+19. 5. What are Docker Tags?
+✅ Definition
+
+Tags are labels for Docker images to identify versions.
+
+👉 Format:
+
+image_name:tag
+
+
+docker pull nginx:latest
+docker build -t myapp:v1 .
+docker tag myapp:v1 myapp:prod
+
+
+
+20. Difference: docker run vs docker create
+✅ docker create
+Creates container
+Does NOT start it
+✅ docker run
+Creates + starts container
+
+
+
+| Command       | Behavior       |
+| ------------- | -------------- |
+| docker create | Only create    |
+| docker run    | Create + start |
+
+
+
+21. Purpose of docker build
+✅ Definition
+
+docker build creates a Docker image from a Dockerfile.
+
+💡 Real-Time Example
+
+You want to package:
+
+Django app
+Dependencies
+Config
+
+👉 Build once → run anywhere
+
+
+# Step 1: Build image
+docker build -t myapp .
+
+# Step 2: Run container
+docker run -d -p 8000:8000 myapp
+
+
+
+
+22. How do you scale applications using Docker Swarm?
+✅ Definition
+
+Docker Swarm allows you to scale applications by increasing the number of container replicas across multiple nodes.
+
+
+
+23. What is a Multi-Stage Build in Docker?
+✅ Definition
+
+A multi-stage build uses multiple FROM statements in a Dockerfile to reduce image size.
+
+👉 Keeps only required files in final image.
+
+💡 Real-Time Example
+
+Build a Python app:
+
+Stage 1 → install dependencies
+Stage 2 → copy only final code
+
+
+
+# Stage 1 (build)
+FROM python:3.10 as builder
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Stage 2 (final)
+FROM python:3.10-slim
+WORKDIR /app
+COPY --from=builder /usr/local/lib/python3.10 /usr/local/lib/python3.10
+COPY . .
+CMD ["python", "app.py"]
+
+
+
+24. How do you handle Environment Variables in Docker?
+✅ Definition
+
+Environment variables are used to configure applications dynamically without changing code.
+
+💡 Real-Time Example
+
+Store DB credentials:
+
+DB_HOST
+DB_USER
+DB_PASSWORD
+
+🧪 Methods
+1. Using -e
+docker run -e DB_HOST=localhost -e DB_USER=admin myapp
+2. Using .env file
+docker run --env-file .env myapp
+3. In Dockerfile
+ENV APP_ENV=production
+
+
+
+25. What is the purpose of Docker --link flag?
+✅ Definition
+
+--link was used to connect containers and share environment variables.
+
+👉 ⚠️ Now deprecated → replaced by Docker networks
+
+
+docker network create mynet
+docker run -d --network mynet --name db mysql
+docker run -d --network mynet myapp
+
+
+
+26. How do you push a Docker image to Docker Hub?
+✅ Definition
+
+Push uploads your image to Docker Hub so others can use it.
+
+💡 Real-Time Example
+
+You built a Django app → want to deploy/share it.
+
+1. Login
+docker login
+2. Tag image
+docker tag myapp username/myapp:v1
+3. Push image
+docker push username/myapp:v1
+
+
+
+27. How do you debug issues inside a Docker container?
+✅ Definition
+
+Debugging involves inspecting logs, accessing container shell, and checking processes.
+
+💡 Real-Time Example
+
+Your Django app is not starting → debug inside container.
+
+🧪 Commands
+1. Check logs
+docker logs <container_id>
+2. Enter container
+docker exec -it <container_id> bash
+3. Check running processes
+ps aux
+4. Inspect container
+docker inspect <container_id>
+5. Check resource usage
+docker stats

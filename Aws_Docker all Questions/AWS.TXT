@@ -1,0 +1,147 @@
+AWS:
+
+What is AWS?
+What are the different types of cloud services in AWS?
+What are AWS regions and availability zones?
+What is EC2 (Elastic Compute Cloud)?
+What is S3 (Simple Storage Service)?
+What is IAM (Identity and Access Management)?
+What is an Elastic Load Balancer (ELB)?
+What is CloudFormation in AWS?
+What is the difference between AWS S3 and EBS (Elastic Block Storage)?
+What is the AWS Shared Responsibility Model?
+What is an AWS VPC (Virtual Private Cloud)?
+Explain the difference between public and private subnets in AWS VPC.
+What is AWS Lambda?
+What is Auto Scaling in AWS?
+What is Amazon RDS (Relational Database Service)?
+What are Security Groups and Network ACLs?
+What is AWS Route 53?
+Explain the difference between EBS and EFS.
+What is AWS CloudWatch?
+What are AWS snapshots, and how do they work?
+What is AWS Elastic Beanstalk?
+Explain the difference between AWS CloudTrail and CloudWatch.
+What is AWS Kinesis?
+What are AWS SQS (Simple Queue Service) and SNS (Simple Notification Service)?
+What is the purpose of AWS Direct Connect?
+How does AWS handle disaster recovery?
+What is AWS WAF (Web Application Firewall)?
+What are the best practices for AWS cost optimization?
+What is AWS Step Functions?
+What is the AWS Well-Architected Framework?
+
+
+
+
+
+
+1. What is AWS?
+
+Amazon Web Services (AWS) is a cloud platform that provides servers, storage, databases, networking, and more — without you owning physical hardware.
+
+👉 Instead of:
+Buying servers ❌
+You just:
+Rent them from AWS ✅
+
+Real-time example:
+You built a Django API → instead of running on your laptop → deploy it on AWS so users can access it globally.
+
+
+
+
+
+2. Types of Cloud Services in AWS
+🧠 Main categories:
+IaaS (Infrastructure as a Service)
+→ You manage servers
+👉 Example: Amazon EC2
+PaaS (Platform as a Service)
+→ AWS manages infrastructure
+👉 Example: AWS Elastic Beanstalk
+SaaS (Software as a Service)
+→ Fully ready applications
+👉 Example: Gmail, Dropbox
+
+
+
+
+3. AWS Regions & Availability Zones
+🌍 Region
+
+A geographic area
+👉 Example: Mumbai (ap-south-1)
+
+🏢 Availability Zone (AZ)
+
+A data center inside a region
+
+👉 One region = multiple AZs
+
+Why important?
+
+High availability
+Fault tolerance
+
+Example:
+
+Your server runs in AZ-1
+If it fails → AZ-2 takes over
+
+
+
+4. What is EC2 ?
+
+EC2 is a scalable virtual server in AWS that allows me to deploy and run backend applications like Django or FastAPI, handling requests from users over the internet.
+
+
+5. Amazon S3
+
+S3 (Simple Storage Service) is AWS’s highly scalable storage system used to store and retrieve files (called objects) like images, videos, documents, and backups. Instead of saving files on your EC2 server (which is risky and limited), you store them in S3 and access them via URLs.
+
+
+6. What is IAM (Identity and Access Management)?
+
+
+IAM is a service in AWS that helps you manage users, groups, and permissions. It allows you to control who can access your AWS resources and what actions they can perform. For example, you can create an IAM user for a developer and give them permission to access only the EC2 service, while denying access to S3 or other services. This way, you can ensure security and proper access control in your AWS environment.
+
+
+
+7. What is an Elastic Load Balancer (ELB)?
+
+An Elastic Load Balancer (ELB) is a service in AWS that automatically distributes incoming application traffic across multiple targets, such as EC2 instances, containers, and IP addresses. 
+It helps improve the availability and fault tolerance of your applications by ensuring that traffic is balanced and can handle varying loads. 
+ELB supports different types of load balancers, including Application Load Balancer (ALB), Network Load Balancer (NLB), and Classic Load Balancer, each designed for specific use cases and traffic patterns.
+
+
+8. What is CloudFormation in AWS?
+
+AWS CloudFormation is a service that allows you to define and provision AWS infrastructure using code.
+With CloudFormation, you can create templates in JSON or YAML format that describe the resources you want to deploy, such as EC2 instances, S3 buckets, and IAM roles.
+You can then use these templates to automatically create and manage your AWS resources in a consistent and repeatable way.
+
+
+
+
+9. What is the difference between AWS S3 and EBS (Elastic Block Storage)?
+
+
+🔑 Core Difference (Simple Understanding)
+S3 → Store files like images, videos, backups (like Google Drive)
+EBS → Acts like a hard disk attached to your EC2 server
+
+
+| Feature     | S3                             | EBS                         |
+| ----------- | ------------------------------ | --------------------------- |
+| Type        | Object storage                 | Block storage               |
+| Usage       | Files (media, static, backups) | OS + application data       |
+| Attachment  | Not attached to EC2            | Must be attached to EC2     |
+| Access      | Via HTTP/URL                   | Mounted as disk (/dev/xvda) |
+| Scalability | Unlimited                      | Limited to volume size      |
+| Performance | Slower (network-based)         | Faster (low latency)        |
+| Example     | Store images                   | Store database or OS        |
+
+
+
+
